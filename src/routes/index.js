@@ -2,12 +2,14 @@ import { Router } from 'express'
 const router = Router()
 
 // middlewares
-import checkHeadersAndBody from '../middlewares/check-headers-and-body.js'
+import checkHeaders from '../middlewares/check-headers-and-body.js'
 
 import index from '../controllers/index.js'
 import createContact from '../controllers/contacts.create.js'
+import getContactById from '../controllers/contacts.getById.js'
 
 router.get('/ping', index)
-router.put('/contacts', checkHeadersAndBody, createContact)
+router.put('/contacts', checkHeaders, createContact)
+router.get('/contacts/:id', checkHeaders, getContactById)
 
 export default router

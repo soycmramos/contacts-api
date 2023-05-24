@@ -1,6 +1,6 @@
 import { v4 } from 'uuid'
 
-const checkHeadersAndBody = (req, res, next) => {
+const checkHeaders = (req, res, next) => {
   const { headers, body } = req
   const accept = headers['accept']
   const contentType = headers['content-type']
@@ -42,27 +42,9 @@ const checkHeadersAndBody = (req, res, next) => {
     return
   }
 
-  if (!Object.keys(body).length) {
-    res
-      .status(400)
-      .header({ 'Content-Type': 'application/json' })
-      .json({
-        status: 'error',
-        code: 400,
-        title: 'BAD_REQUEST',
-        message: 'Body not found',
-        meta: {
-          _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
-        },
-      })
-    return
-  }
-
   req.uuid = uuid
   next()
   return
 }
 
-export default checkHeadersAndBody
+export default checkHeaders
