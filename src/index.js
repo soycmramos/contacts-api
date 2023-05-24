@@ -3,6 +3,7 @@ import path from 'path'
 import cors from 'cors'
 import morgan from 'morgan'
 import { config } from 'dotenv'
+import pool from './db/pool.js'
 import routes from './routes/index.js'
 
 config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`) })
@@ -32,3 +33,10 @@ app.listen(app.get('port'), async () => {
   console.log(`Node server running...`)
   return
 })
+
+try {
+  await pool.getConnection()
+  console.log('DB is connected')
+} catch (e) {
+  console.error(e)
+}
