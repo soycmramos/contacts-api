@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 
 const checkHeaders = (req, res, next) => {
-  const { headers, body } = req
+  const { headers } = req
   const accept = headers['accept']
   const contentType = headers['content-type']
   const uuid = v4()
