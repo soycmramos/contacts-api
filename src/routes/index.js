@@ -15,7 +15,7 @@ router.get('/ping', index)
 router.get('/contacts', checkHeaders, getContacts)
 router.put('/contacts', checkHeaders, createContact)
 router.get('/contacts/:id', checkHeaders, getContactById)
-router.delete('/contacts/:id', checkHeaders, deleteContactById)
 router.patch('/contacts/:id', checkHeaders, updateContactById)
+router.delete('/contacts/:id', checkHeaders, deleteContactById)
 
 export default router
