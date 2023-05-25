@@ -8,10 +8,12 @@ import index from '../controllers/index.js'
 import createContact from '../controllers/contacts.create.js'
 import getContactById from '../controllers/contacts.getById.js'
 import deleteContactById from '../controllers/contacts.deleteById.js'
+import updateContactById from '../controllers/contacts.updateById.js'
 
 router.get('/ping', index)
 router.put('/contacts', checkHeaders, createContact)
 router.get('/contacts/:id', checkHeaders, getContactById)
 router.delete('/contacts/:id', checkHeaders, deleteContactById)
+router.patch('/contacts/:id', checkHeaders, updateContactById)
 
 export default router
