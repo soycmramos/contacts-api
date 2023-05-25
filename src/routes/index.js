@@ -9,8 +9,10 @@ import createContact from '../controllers/contacts.create.js'
 import getContactById from '../controllers/contacts.getById.js'
 import deleteContactById from '../controllers/contacts.deleteById.js'
 import updateContactById from '../controllers/contacts.updateById.js'
+import getContacts from '../controllers/contacts.getContacts.js'
 
 router.get('/ping', index)
+router.get('/contacts', checkHeaders, getContacts)
 router.put('/contacts', checkHeaders, createContact)
 router.get('/contacts/:id', checkHeaders, getContactById)
 router.delete('/contacts/:id', checkHeaders, deleteContactById)
