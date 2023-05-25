@@ -1,4 +1,4 @@
-const index = (req, res) => {
+const ping = (req, res) => {
   const { uuid } = req
   res
     .status(200)
@@ -17,4 +17,4 @@ const index = (req, res) => {
   return
 }
 
-export default index
+export default ping
