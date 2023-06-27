@@ -34,6 +34,13 @@ const updateContactById = async (req, res) => {
         code: 200,
         title: 'OK',
         message: 'Resource updated successfully',
+        data: {
+          contact: {
+            id,
+            name,
+            number
+          }
+        },
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
           _uuid: uuid,

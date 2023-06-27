@@ -4,6 +4,7 @@ const router = Router()
 // middlewares
 import checkHeadersAndBody from './../middlewares/checkHeadersAndBody.js'
 
+// routes
 import ping from '../controllers/ping.js'
 import getContacts from '../controllers/getContacts.js'
 import createContact from '../controllers/createContact.js'
