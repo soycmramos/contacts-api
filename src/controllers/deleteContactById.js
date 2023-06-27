@@ -1,7 +1,8 @@
+import { v4 } from 'uuid'
 import pool from '../db/pool.js'
 
 const deleteContactById = async (req, res) => {
-  const { params, uuid } = req
+  const { params, url } = req
   const { id } = params
 
   try {
@@ -18,8 +19,8 @@ const deleteContactById = async (req, res) => {
           message: 'Resource not found',
           meta: {
             _timestamp: parseInt(Date.now() / 1000),
-            _requestId: uuid,
-            _requestPath: req.baseUrl + req.path,
+            _uuid: v4(),
+            _path: url
           },
         })
       return
@@ -35,8 +36,8 @@ const deleteContactById = async (req, res) => {
         message: 'Resource deleted successfully',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: v4(),
+          _path: url
         },
       })
     return
@@ -52,8 +53,8 @@ const deleteContactById = async (req, res) => {
         message: 'Something went wrong',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: v4(),
+          _path: url
         },
       })
     return

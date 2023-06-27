@@ -17,7 +17,7 @@ router.get('/contacts', getContacts)
 router.put('/contacts', checkHeadersAndBody, createContact)
 router.get('/contacts/:id', getContactById)
 router.patch('/contacts/:id', checkHeadersAndBody, updateContactById)
-router.delete('/contacts/:id', checkHeadersAndBody, deleteContactById)
+router.delete('/contacts/:id', deleteContactById)
 router.all('*', notFound)
 
 export default router
