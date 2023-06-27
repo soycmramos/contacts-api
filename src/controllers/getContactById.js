@@ -27,7 +27,7 @@ const getContactById = async (req, res) => {
     }
 
     const [contact] = rows
-    
+
     res
       .status(200)
       .header({ 'Content-Type': 'application/json' })

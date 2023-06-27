@@ -1,2 +1,2 @@
 # contacts-api
-A simple REST API CRUD about contacts
+A simple Nodejs API with mysql database connection and JWT validation for manage contacts
