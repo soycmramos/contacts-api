@@ -1,5 +1,7 @@
+import { v4 } from 'uuid'
+
 const notFound = (req, res) => {
-  const { uuid } = req
+  const { url } = req
   res
     .status(404)
     .header({ 'Content-Type': 'application/json' })
@@ -10,8 +12,8 @@ const notFound = (req, res) => {
       message: 'Path not found',
       meta: {
         _timestamp: parseInt(Date.now() / 1000),
-        _requestId: uuid,
-        _requestPath: req.baseUrl + req.path,
+        _uuid: v4(),
+        _path: url,
       },
     })
   return
