@@ -15,7 +15,7 @@ import notFound from '../controllers/notFound.js'
 router.get('/ping', ping)
 router.get('/contacts', getContacts)
 router.put('/contacts', checkHeadersAndBody, createContact)
-router.get('/contacts/:id', checkHeadersAndBody, getContactById)
+router.get('/contacts/:id', getContactById)
 router.patch('/contacts/:id', checkHeadersAndBody, updateContactById)
 router.delete('/contacts/:id', checkHeadersAndBody, deleteContactById)
 router.all('*', notFound)
