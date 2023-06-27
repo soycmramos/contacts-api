@@ -1,5 +1,6 @@
+import { v4 } from 'uuid'
+
 const ping = (req, res) => {
-  const { uuid } = req
   res
     .status(200)
     .header({ 'Content-Type': 'application/json' })
@@ -10,8 +11,8 @@ const ping = (req, res) => {
       message: 'Pong',
       meta: {
         _timestamp: parseInt(Date.now() / 1000),
-        _requestId: uuid,
-        _requestPath: req.baseUrl + req.path,
+        _uuid: v4(),
+        _path: req.url,
       },
     })
   return
