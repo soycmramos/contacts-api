@@ -1,15 +1,17 @@
 {
   "name": "contacts-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A simple Nodejs API with mysql database connection and JWT validation for manage contacts",
+  "main": "./src/index.js",
   "repository": "https://github.com/soycarlosramos/contacts-api.git",
   "author": "Carlos Ramos <carlosmarioramos34@gmail.com>",
-  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
+    "test": "cross-env NODE_ENV=test mocha ./src/tests --exit",
     "start": "cross-env NODE_ENV=production node ./src/index.js"
   },
+  "keywords": ["REST API", "Nodejs", "Express", "JWT", "Contacts"],
   "dependencies": {
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
