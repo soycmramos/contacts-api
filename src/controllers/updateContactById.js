@@ -1,7 +1,7 @@
 import pool from '../db/pool.js'
 
-const createContact = async (req, res) => {
-  const { body, params, uuid } = req
+const updateContactById = async (req, res) => {
+  const { body, params, uuid, url } = req
   const { id } = params
   const { name, number } = body
 
@@ -19,8 +19,8 @@ const createContact = async (req, res) => {
           message: 'Resource not found',
           meta: {
             _timestamp: parseInt(Date.now() / 1000),
-            _requestId: uuid,
-            _requestPath: req.baseUrl + req.path,
+            _uuid: uuid,
+            _path: url
           },
         })
       return
@@ -36,8 +36,8 @@ const createContact = async (req, res) => {
         message: 'Resource updated successfully',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: uuid,
+          _path: url
         },
       })
 
@@ -54,12 +54,12 @@ const createContact = async (req, res) => {
         message: 'Something went wrong',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: uuid,
+          _path: url
         },
       })
     return
   }
 }
 
-export default createContact
+export default updateContactById
