@@ -1,7 +1,8 @@
+import { v4 } from 'uuid'
 import pool from '../db/pool.js'
 
 const getContacts = async (req, res) => {
-  const { uuid } = req
+  const { url } = req
   try {
     const [contacts] = await pool.query('SELECT * FROM contacts')
 
@@ -13,11 +14,11 @@ const getContacts = async (req, res) => {
           status: 'error',
           code: 404,
           title: 'NOT_FOUND',
-          message: 'Resource not found',
+          message: 'There is no contacts yet',
           meta: {
             _timestamp: parseInt(Date.now() / 1000),
-            _requestId: uuid,
-            _requestPath: req.baseUrl + req.path,
+            _uuid: v4(),
+            _path: url
           },
         })
       return
@@ -34,8 +35,8 @@ const getContacts = async (req, res) => {
         data: { contacts },
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: v4(),
+          _path: url
         },
       })
     return
@@ -51,8 +52,8 @@ const getContacts = async (req, res) => {
         message: 'Something went wrong',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: v4(),
+          _path: url
         },
       })
     return

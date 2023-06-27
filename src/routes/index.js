@@ -13,7 +13,7 @@ import deleteContactById from '../controllers/deleteContactById.js'
 import notFound from '../controllers/notFound.js'
 
 router.get('/ping', ping)
-router.get('/contacts', checkHeadersAndBody, getContacts)
+router.get('/contacts', getContacts)
 router.put('/contacts', checkHeadersAndBody, createContact)
 router.get('/contacts/:id', checkHeadersAndBody, getContactById)
 router.patch('/contacts/:id', checkHeadersAndBody, updateContactById)
