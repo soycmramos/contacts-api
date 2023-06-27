@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 
-const checkHeaders = (req, res, next) => {
-  const { headers } = req
+const checkHeadersAndBody = (req, res, next) => {
+  const { headers, body, url } = req
   const accept = headers['accept']
   const contentType = headers['content-type']
   const uuid = v4()
@@ -17,8 +17,8 @@ const checkHeaders = (req, res, next) => {
         message: 'Format payload required by the consumer is not supported',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: uuid,
+          _path: url
         },
       })
     return
@@ -32,11 +32,29 @@ const checkHeaders = (req, res, next) => {
         status: 'error',
         code: 415,
         title: 'UNSUPPORTED_MEDIA_TYPE',
-        message: 'Format payload required by the consumer is not supported',
+        message: 'Format payload submitted by the consumer is not supported',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _requestId: uuid,
-          _requestPath: req.baseUrl + req.path,
+          _uuid: uuid,
+          _path: url
+        },
+      })
+    return
+  }
+
+  if (!Object.keys(body).length) {
+    res
+      .status(400)
+      .header({ 'Content-Type': 'application/json' })
+      .json({
+        status: 'error',
+        code: 400,
+        title: 'BAD_REQUEST',
+        message: 'Body not found',
+        meta: {
+          _timestamp: parseInt(Date.now() / 1000),
+          _uuid: uuid,
+          _path: url
         },
       })
     return
@@ -47,4 +65,4 @@ const checkHeaders = (req, res, next) => {
   return
 }
 
-export default checkHeaders
+export default checkHeadersAndBody
