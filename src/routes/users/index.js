@@ -5,12 +5,10 @@ const router = Router()
 import checkHeadersAndBody from './../../middlewares/checkHeadersAndBody.js'
 
 // controllers
-import ping from '../../controllers/ping.js'
 import signup from '../../controllers/users/signup.js'
 import signin from '../../controllers/users/signin.js'
-import notFound from '../../controllers/notFound.js'
+import notFound from '../notFound.js'
 
-router.get('/ping', ping)
 router.put('/auth/signup', checkHeadersAndBody, signup)
 router.post('/auth/signin', checkHeadersAndBody, signin)
 router.all('*', notFound)

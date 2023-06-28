@@ -5,15 +5,13 @@ const router = Router()
 import checkHeadersAndBody from '../../middlewares/checkHeadersAndBody.js'
 
 // routes
-import ping from '../../controllers/ping.js'
 import getContacts from '../../controllers/contacts/getContacts.js'
 import createContact from '../../controllers/contacts/createContact.js'
 import getContactById from '../../controllers/contacts/getContactById.js'
 import updateContactById from '../../controllers/contacts/updateContactById.js'
 import deleteContactById from '../../controllers/contacts/deleteContactById.js'
-import notFound from '../../controllers/notFound.js'
+import notFound from '../notFound.js'
 
-router.get('/ping', ping)
 router.get('/contacts', getContacts)
 router.put('/contacts', checkHeadersAndBody, createContact)
 router.get('/contacts/:id', getContactById)

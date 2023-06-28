@@ -3,8 +3,8 @@ import { Router } from 'express'
 
 const router = Router()
 
-
-router.get('/', (req, res) => {
+router.get('/ping', (req, res) => {
+	const { url } = req
 	res
 		.status(200)
 		.header({ 'Content-Type': 'application/json' })
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 			meta: {
 				_timestamp: parseInt(Date.now() / 1000),
 				_uuid: v4(),
-				_path: req.url,
+				_path: url,
 			},
 		})
 	return
