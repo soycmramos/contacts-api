@@ -1,14 +1,14 @@
 import { v4 } from 'uuid'
-import pool from '../db/pool.js'
+import pool from '../../db/pool.js'
 
-const deleteContactById = async (req, res) => {
+const getContactById = async (req, res) => {
   const { params, url } = req
   const { id } = params
 
   try {
-    const [{ affectedRows }] = await pool.query('DELETE FROM contacts WHERE id = ?', id)
+    const [rows] = await pool.query('SELECT * FROM contacts WHERE id = ?', id)
 
-    if (!Boolean(affectedRows)) {
+    if (!rows.length) {
       res
         .status(404)
         .header({ 'Content-Type': 'application/json' })
@@ -26,6 +26,8 @@ const deleteContactById = async (req, res) => {
       return
     }
 
+    const [contact] = rows
+
     res
       .status(200)
       .header({ 'Content-Type': 'application/json' })
@@ -33,7 +35,8 @@ const deleteContactById = async (req, res) => {
         status: 'success',
         code: 200,
         title: 'OK',
-        message: 'Resource deleted successfully',
+        message: 'Resource found successfully',
+        data: { contact },
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
           _uuid: v4(),
@@ -61,4 +64,4 @@ const deleteContactById = async (req, res) => {
   }
 }
 
-export default deleteContactById
+export default getContactById

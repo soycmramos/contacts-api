@@ -1,4 +1,4 @@
-import pool from '../db/pool.js'
+import pool from '../../db/pool.js'
 
 const createContact = async (req, res) => {
   const { body, uuid, url } = req

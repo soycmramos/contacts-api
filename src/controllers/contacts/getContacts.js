@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import pool from '../db/pool.js'
+import pool from '../../db/pool.js'
 
 const getContacts = async (req, res) => {
   const { url } = req

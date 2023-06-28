@@ -1,32 +1,30 @@
-import { v4 } from 'uuid'
-import pool from '../db/pool.js'
+import pool from '../../db/pool.js'
 
-const getContactById = async (req, res) => {
-  const { params, url } = req
+const updateContactById = async (req, res) => {
+  const { body, params, uuid, url } = req
   const { id } = params
+  const { name, number } = body
 
   try {
-    const [rows] = await pool.query('SELECT * FROM contacts WHERE id = ?', id)
+    const [{ affectedRows }] = await pool.query('UPDATE contacts SET name = IFNULL(?, name), number = IFNULL(?, number) WHERE id = ?', [name, number, id])
 
-    if (!rows.length) {
+    if (!Boolean(affectedRows)) {
       res
         .status(404)
         .header({ 'Content-Type': 'application/json' })
         .json({
           status: 'error',
           code: 404,
-          title: 'NOT_FOUND',
+          title: 'BAD_REQUEST',
           message: 'Resource not found',
           meta: {
             _timestamp: parseInt(Date.now() / 1000),
-            _uuid: v4(),
+            _uuid: uuid,
             _path: url
           },
         })
       return
     }
-
-    const [contact] = rows
 
     res
       .status(200)
@@ -35,14 +33,21 @@ const getContactById = async (req, res) => {
         status: 'success',
         code: 200,
         title: 'OK',
-        message: 'Resource found successfully',
-        data: { contact },
+        message: 'Resource updated successfully',
+        data: {
+          contact: {
+            id,
+            name,
+            number
+          }
+        },
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _uuid: v4(),
+          _uuid: uuid,
           _path: url
         },
       })
+
     return
   } catch (e) {
     console.error(e)
@@ -56,7 +61,7 @@ const getContactById = async (req, res) => {
         message: 'Something went wrong',
         meta: {
           _timestamp: parseInt(Date.now() / 1000),
-          _uuid: v4(),
+          _uuid: uuid,
           _path: url
         },
       })
@@ -64,4 +69,4 @@ const getContactById = async (req, res) => {
   }
 }
 
-export default getContactById
+export default updateContactById
