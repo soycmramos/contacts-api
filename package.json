@@ -1,27 +1,35 @@
 {
-  "name": "contacts-api",
-  "version": "1.0.0",
-  "description": "A simple Nodejs API with mysql database connection and JWT validation for manage contacts",
-  "main": "./src/index.js",
-  "repository": "https://github.com/soycarlosramos/contacts-api.git",
-  "author": "Carlos Ramos <carlosmarioramos34@gmail.com>",
-  "type": "module",
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
-    "test": "cross-env NODE_ENV=test mocha ./src/tests --exit",
-    "start": "cross-env NODE_ENV=production node ./src/index.js"
-  },
-  "keywords": ["REST API", "Nodejs", "Express", "JWT", "Contacts"],
-  "dependencies": {
-    "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "mysql2": "^3.3.2",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.22"
-  }
+	"name": "contacts-api",
+	"version": "1.0.0",
+	"description": "A simple Nodejs API with mysql database connection and JWT validation for manage contacts",
+	"main": "./src/index.js",
+	"repository": "https://github.com/soycarlosramos/contacts-api.git",
+	"author": "Carlos Ramos <carlosmarioramos34@gmail.com>",
+	"type": "module",
+	"scripts": {
+		"dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
+		"test": "cross-env NODE_ENV=test mocha ./src/tests --exit",
+		"start": "cross-env NODE_ENV=production node ./src/index.js"
+	},
+	"keywords": [
+		"REST API",
+		"Nodejs",
+		"Express",
+		"JWT",
+		"Contacts"
+	],
+	"dependencies": {
+		"bcrypt": "^5.1.0",
+		"cors": "^2.8.5",
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"jsonwebtoken": "^9.0.0",
+		"mysql2": "^3.3.2",
+		"uuid": "^9.0.0"
+	},
+	"devDependencies": {
+		"morgan": "^1.10.0",
+		"nodemon": "^2.0.22"
+	}
 }

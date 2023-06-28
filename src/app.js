@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
 import morgan from 'morgan'
-import { contactsRoutes } from './routes/index.js'
+import { ping, contactsRoutes } from './routes/index.js'
 
 config()
 
@@ -19,6 +19,7 @@ app.use(cors())
 app.use(morgan('dev'))
 
 // routes
+app.use(ping)
 app.use(contactsRoutes)
 
 export default app
