@@ -7,7 +7,6 @@ router.get('/ping', (req, res) => {
 	const { url } = req
 	res
 		.status(200)
-		.header({ 'Content-Type': 'application/json' })
 		.json({
 			status: 'success',
 			code: 200,
