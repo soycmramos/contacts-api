@@ -15,7 +15,7 @@ const updateContactById = async (req, res) => {
 					status: 'error',
 					code: 404,
 					title: 'BAD_REQUEST',
-					message: 'Resource not found',
+					message: 'Contact not found',
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: uuid,
@@ -31,7 +31,7 @@ const updateContactById = async (req, res) => {
 				status: 'success',
 				code: 200,
 				title: 'OK',
-				message: 'Resource updated successfully',
+				message: 'Contact updated successfully',
 				data: {
 					contact: {
 						id,

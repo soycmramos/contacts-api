@@ -29,7 +29,7 @@ const getAllContacts = async (req, res) => {
 				status: 'success',
 				code: 200,
 				title: 'OK',
-				message: 'Resources found successfully',
+				message: 'Contacts found successfully',
 				data: { contacts },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),

@@ -33,7 +33,7 @@ const signup = async (req, res) => {
 					status: 'error',
 					code: 409,
 					title: 'CONFLICT',
-					message: 'Resource already exists',
+					message: 'User already exists',
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: uuid,
@@ -52,7 +52,7 @@ const signup = async (req, res) => {
 				status: 'success',
 				code: 201,
 				title: 'CREATED',
-				message: 'Resource created successfully',
+				message: 'User created successfully',
 				data: { user: { id, email } },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),

@@ -34,7 +34,7 @@ const signin = async (req, res) => {
 					status: 'error',
 					code: 404,
 					title: 'NOT_FOUND',
-					message: 'Resource not found',
+					message: 'User not found',
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: uuid,
@@ -75,7 +75,7 @@ const signin = async (req, res) => {
 				status: 'success',
 				code: 200,
 				title: 'OK',
-				message: 'Resource found successfully',
+				message: 'User found successfully',
 				data: { user },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),

@@ -31,7 +31,7 @@ const createContact = async (req, res) => {
 				status: 'success',
 				code: 201,
 				title: 'CREATED',
-				message: 'Resource created successfully',
+				message: 'Contact created successfully',
 				data: {
 					contact: {
 						id,
