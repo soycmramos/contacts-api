@@ -16,6 +16,7 @@ const deleteContactById = async (req, res) => {
 					code: 404,
 					title: 'NOT_FOUND',
 					message: 'Contact not found',
+					data: null,
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: v4(),
@@ -32,6 +33,7 @@ const deleteContactById = async (req, res) => {
 				code: 200,
 				title: 'OK',
 				message: 'Contact deleted successfully',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: v4(),
@@ -48,6 +50,7 @@ const deleteContactById = async (req, res) => {
 				code: 500,
 				title: 'INTERNAL_SERVER_ERROR',
 				message: 'Something went wrong',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: v4(),

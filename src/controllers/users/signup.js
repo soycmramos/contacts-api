@@ -14,6 +14,7 @@ const signup = async (req, res) => {
 				code: 400,
 				title: 'BAD_REQUEST',
 				message: 'All parameters are required',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,
@@ -34,6 +35,7 @@ const signup = async (req, res) => {
 					code: 409,
 					title: 'CONFLICT',
 					message: 'User already exists',
+					data: null,
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: uuid,
@@ -53,7 +55,12 @@ const signup = async (req, res) => {
 				code: 201,
 				title: 'CREATED',
 				message: 'User created successfully',
-				data: { user: { id, email } },
+				data: {
+					user: {
+						id,
+						email
+					}
+				},
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,
@@ -71,6 +78,7 @@ const signup = async (req, res) => {
 				code: 500,
 				title: 'INTERNAL_SERVER_ERROR',
 				message: 'Something went wrong',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,

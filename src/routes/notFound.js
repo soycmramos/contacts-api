@@ -9,6 +9,7 @@ const notFound = (req, res) => {
 			code: 404,
 			title: 'NOT_FOUND',
 			message: 'Path not found',
+			data: null,
 			meta: {
 				_timestamp: parseInt(Date.now() / 1000),
 				_uuid: v4(),

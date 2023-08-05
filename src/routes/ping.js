@@ -12,6 +12,9 @@ router.get('/ping', (req, res) => {
 			code: 200,
 			title: 'OK',
 			message: 'Pong',
+			data: {
+				message: 'Hello world'
+			},
 			meta: {
 				_timestamp: parseInt(Date.now() / 1000),
 				_uuid: v4(),

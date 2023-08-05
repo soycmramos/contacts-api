@@ -15,7 +15,8 @@ const checkHeaders = (req, res, next) => {
 				status: 'error',
 				code: 406,
 				title: 'NOT_ACCEPTABLE',
-				message: 'Media type required is not supported',
+				message: 'Media type required is not accetable',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,
@@ -33,6 +34,7 @@ const checkHeaders = (req, res, next) => {
 				code: 415,
 				title: 'UNSUPPORTED_MEDIA_TYPE',
 				message: 'Media type submitted is not supported',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,
@@ -58,6 +60,7 @@ const checkBody = (req, res, next) => {
 				code: 400,
 				title: 'BAD_REQUEST',
 				message: 'Request body not found',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,

@@ -14,6 +14,7 @@ const getAllContacts = async (req, res) => {
 					code: 404,
 					title: 'NOT_FOUND',
 					message: 'There is no contacts yet',
+					data: null,
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: v4(),
@@ -47,6 +48,7 @@ const getAllContacts = async (req, res) => {
 				code: 500,
 				title: 'INTERNAL_SERVER_ERROR',
 				message: 'Something went wrong',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: v4(),

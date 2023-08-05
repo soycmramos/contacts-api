@@ -16,6 +16,7 @@ const updateContactById = async (req, res) => {
 					code: 404,
 					title: 'BAD_REQUEST',
 					message: 'Contact not found',
+					data: null,
 					meta: {
 						_timestamp: parseInt(Date.now() / 1000),
 						_uuid: uuid,
@@ -56,6 +57,7 @@ const updateContactById = async (req, res) => {
 				code: 500,
 				title: 'INTERNAL_SERVER_ERROR',
 				message: 'Something went wrong',
+				data: null,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,
