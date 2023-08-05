@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import pool from '../../db/pool.js'
 
-const getContacts = async (req, res) => {
+const getAllContacts = async (req, res) => {
 	const { url } = req
 	try {
 		const [contacts] = await pool.query('SELECT * FROM contacts')
@@ -57,4 +57,4 @@ const getContacts = async (req, res) => {
 	}
 }
 
-export default getContacts
+export default getAllContacts
