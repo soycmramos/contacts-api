@@ -1,5 +1,5 @@
-import contactsRoutes from './contacts/index.js'
+import defaultRoutes from './default.js'
 import usersRoutes from './users/index.js'
-import ping from './ping.js'
+import contactsRoutes from './contacts/index.js'
 
-export { ping, contactsRoutes, usersRoutes }
+export { defaultRoutes, contactsRoutes, usersRoutes }
