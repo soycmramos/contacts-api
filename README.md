@@ -26,7 +26,7 @@ yarn test
 ```
 ## ENV File
 
-Check `.example` file
+Check `.env.example` file
 
 ```properties
 PORT
