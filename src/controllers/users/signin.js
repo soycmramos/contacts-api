@@ -1,6 +1,7 @@
 import pool from '../../db/pool.js'
 import bcrypt from 'bcrypt';
 import signJWT from '../../utils/signJWT.js'
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const signin = async (req, res) => {
 	const { body, uuid, url } = req
@@ -9,11 +10,11 @@ const signin = async (req, res) => {
 
 	if (params.some(p => p === undefined || p === null || !p.length)) {
 		res
-			.status(400)
+			.status(StatusCodes.BAD_REQUEST)
 			.json({
 				status: 'error',
-				code: 400,
-				title: 'BAD_REQUEST',
+				code: StatusCodes.BAD_REQUEST,
+				title: ReasonPhrases. BAD_REQUEST,
 				message: 'All parameters are required',
 				data: null,
 				meta: {
@@ -30,11 +31,11 @@ const signin = async (req, res) => {
 
 		if (!rows.length) {
 			res
-				.status(404)
+				.status(StatusCodes.NOT_FOUND)
 				.json({
 					status: 'error',
-					code: 404,
-					title: 'NOT_FOUND',
+					code: StatusCodes.NOT_FOUND,
+					title: ReasonPhrases.NOT_FOUND,
 					message: 'User not found',
 					data: null,
 					meta: {
@@ -51,11 +52,11 @@ const signin = async (req, res) => {
 
 		if (!match) {
 			res
-				.status(401)
+				.status(StatusCodes.UNAUTHORIZED)
 				.json({
 					status: 'error',
-					code: 401,
-					title: 'UNAUTHORIZED',
+					code: StatusCodes.UNAUTHORIZED,
+					title: ReasonPhrases.UNAUTHORIZED,
 					message: 'Invalid password',
 					data: null,
 					meta: {
@@ -72,12 +73,12 @@ const signin = async (req, res) => {
 		delete user.createdAt
 
 		res
-			.status(200)
+			.status(StatusCodes.OK)
 			.header({ Authorization: `Bearer ${token}` })
 			.json({
 				status: 'success',
-				code: 200,
-				title: 'OK',
+				code: StatusCodes.OK,
+				title: ReasonPhrases.OK,
 				message: 'User found successfully',
 				data: { user },
 				meta: {
@@ -90,11 +91,11 @@ const signin = async (req, res) => {
 	} catch (e) {
 		console.error(e)
 		res
-			.status(500)
+			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
 				status: 'error',
-				code: 500,
-				title: 'INTERNAL_SERVER_ERROR',
+				code: StatusCodes.INTERNAL_SERVER_ERROR,
+				title: ReasonPhrases.INTERNAL_SERVER_ERROR,
 				message: 'Something went wrong',
 				data: null,
 				meta: {

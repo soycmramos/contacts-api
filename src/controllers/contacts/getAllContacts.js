@@ -1,5 +1,6 @@
 import { v4 } from 'uuid'
 import pool from '../../db/pool.js'
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const getAllContacts = async (req, res) => {
 	const { url } = req
@@ -8,11 +9,11 @@ const getAllContacts = async (req, res) => {
 
 		if (!contacts.length) {
 			res
-				.status(404)
+				.status(StatusCodes.NOT_FOUND)
 				.json({
 					status: 'error',
-					code: 404,
-					title: 'NOT_FOUND',
+					code: StatusCodes.NOT_FOUND,
+					title: ReasonPhrases.NOT_FOUND,
 					message: 'There is no contacts yet',
 					data: null,
 					meta: {
@@ -25,11 +26,11 @@ const getAllContacts = async (req, res) => {
 		}
 
 		res
-			.status(200)
+			.status(StatusCodes.OK)
 			.json({
 				status: 'success',
-				code: 200,
-				title: 'OK',
+				code: StatusCodes.OK,
+				title: ReasonPhrases.OK,
 				message: 'Contacts found successfully',
 				data: { contacts },
 				meta: {
@@ -42,11 +43,11 @@ const getAllContacts = async (req, res) => {
 	} catch (e) {
 		console.error(e)
 		res
-			.status(500)
+			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
 				status: 'error',
-				code: 500,
-				title: 'INTERNAL_SERVER_ERROR',
+				code: StatusCodes.INTERNAL_SERVER_ERROR,
+				title: ReasonPhrases.INTERNAL_SERVER_ERROR,
 				message: 'Something went wrong',
 				data: null,
 				meta: {

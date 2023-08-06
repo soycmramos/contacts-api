@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { config } from 'dotenv'
 import morgan from 'morgan'
-import { defaultRoutes, contactsRoutes, usersRoutes } from './routes/index.js'
+import { contactsRoutes, usersRoutes, defaultRoutes } from './routes/index.js'
 
 config()
 

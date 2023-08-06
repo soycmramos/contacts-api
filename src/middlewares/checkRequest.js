@@ -1,3 +1,4 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { v4 } from 'uuid'
 
 const MEDIA_TYPE = 'application/json'
@@ -10,11 +11,11 @@ const checkHeaders = (req, res, next) => {
 
 	if (!accept || accept !== MEDIA_TYPE) {
 		res
-			.status(406)
+			.status(StatusCodes.NOT_ACCEPTABLE)
 			.json({
 				status: 'error',
-				code: 406,
-				title: 'NOT_ACCEPTABLE',
+				code: StatusCodes.NOT_ACCEPTABLE,
+				title: ReasonPhrases.NOT_ACCEPTABLE,
 				message: 'Media type required is not accetable',
 				data: null,
 				meta: {
@@ -28,11 +29,11 @@ const checkHeaders = (req, res, next) => {
 
 	if (!contentType || contentType !== MEDIA_TYPE) {
 		res
-			.status(415)
+			.status(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 			.json({
 				status: 'error',
-				code: 415,
-				title: 'UNSUPPORTED_MEDIA_TYPE',
+				code: StatusCodes.UNSUPPORTED_MEDIA_TYPE,
+				title: ReasonPhrases.UNSUPPORTED_MEDIA_TYPE,
 				message: 'Media type submitted is not supported',
 				data: null,
 				meta: {
@@ -54,11 +55,11 @@ const checkBody = (req, res, next) => {
 
 	if (!Object.keys(body).length) {
 		res
-			.status(400)
+			.status(StatusCodes.BAD_REQUEST)
 			.json({
 				status: 'error',
-				code: 400,
-				title: 'BAD_REQUEST',
+				code: StatusCodes.BAD_REQUEST,
+				title: ReasonPhrases.BAD_REQUEST,
 				message: 'Request body not found',
 				data: null,
 				meta: {

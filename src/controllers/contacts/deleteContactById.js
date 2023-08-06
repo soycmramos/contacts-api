@@ -1,5 +1,6 @@
 import { v4 } from 'uuid'
 import pool from '../../db/pool.js'
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 const deleteContactById = async (req, res) => {
 	const { params, url } = req
@@ -10,11 +11,11 @@ const deleteContactById = async (req, res) => {
 
 		if (!Boolean(affectedRows)) {
 			res
-				.status(404)
+				.status(StatusCodes.NOT_FOUND)
 				.json({
 					status: 'error',
-					code: 404,
-					title: 'NOT_FOUND',
+					code: StatusCodes.NOT_FOUND,
+					title: ReasonPhrases.NOT_FOUND,
 					message: 'Contact not found',
 					data: null,
 					meta: {
@@ -27,11 +28,11 @@ const deleteContactById = async (req, res) => {
 		}
 
 		res
-			.status(200)
+			.status(StatusCodes.OK)
 			.json({
 				status: 'success',
-				code: 200,
-				title: 'OK',
+				code: StatusCodes.OK,
+				title: ReasonPhrases.OK,
 				message: 'Contact deleted successfully',
 				data: null,
 				meta: {
@@ -44,11 +45,11 @@ const deleteContactById = async (req, res) => {
 	} catch (e) {
 		console.error(e)
 		res
-			.status(500)
+			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
 				status: 'error',
-				code: 500,
-				title: 'INTERNAL_SERVER_ERROR',
+				code: StatusCodes.INTERNAL_SERVER_ERROR,
+				title: ReasonPhrases.INTERNAL_SERVER_ERROR,
 				message: 'Something went wrong',
 				data: null,
 				meta: {

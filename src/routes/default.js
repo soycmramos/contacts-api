@@ -1,16 +1,17 @@
-import { v4 } from 'uuid'
 import { Router } from 'express'
+import { v4 } from 'uuid'
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const router = Router()
 
 router.get('/ping', (req, res) => {
 	const { url } = req
 	res
-		.status(200)
+		.status(StatusCodes.OK)
 		.json({
 			status: 'success',
-			code: 200,
-			title: 'OK',
+			code: StatusCodes.OK,
+			title: ReasonPhrases.OK,
 			message: 'Pong',
 			data: {
 				message: 'Hello world'
@@ -27,11 +28,11 @@ router.get('/ping', (req, res) => {
 router.all('*', (req, res) => {
 	const { url } = req
 	res
-		.status(404)
+		.status(StatusCodes.NOT_FOUND)
 		.json({
 			status: 'error',
-			code: 404,
-			title: 'NOT_FOUND',
+			code: StatusCodes.NOT_FOUND,
+			title: ReasonPhrases.NOT_FOUND,
 			message: 'Path not found',
 			data: null,
 			meta: {

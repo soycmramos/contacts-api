@@ -1,5 +1,6 @@
 import pool from '../../db/pool.js'
 import hashPassword from '../../utils/hashPassword.js'
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const signup = async (req, res) => {
 	const { body, uuid, url } = req
@@ -8,11 +9,11 @@ const signup = async (req, res) => {
 
 	if (params.some(param => param === undefined || param === null || !param.length)) {
 		res
-			.status(400)
+			.status(StatusCodes.BAD_REQUEST)
 			.json({
 				status: 'error',
-				code: 400,
-				title: 'BAD_REQUEST',
+				code: StatusCodes.BAD_REQUEST,
+				title: ReasonPhrases.BAD_REQUEST,
 				message: 'All parameters are required',
 				data: null,
 				meta: {
@@ -29,11 +30,11 @@ const signup = async (req, res) => {
 
 		if (rows.length) {
 			res
-				.status(409)
+				.status(StatusCodes.CONFLICT)
 				.json({
 					status: 'error',
-					code: 409,
-					title: 'CONFLICT',
+					code: StatusCodes.CONFLICT,
+					title: ReasonPhrases.CONFLICT,
 					message: 'User already exists',
 					data: null,
 					meta: {
@@ -49,11 +50,11 @@ const signup = async (req, res) => {
 		const [{ insertId: id }] = await pool.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, hash])
 
 		res
-			.status(201)
+			.status(StatusCodes.CREATED)
 			.json({
 				status: 'success',
-				code: 201,
-				title: 'CREATED',
+				code: StatusCodes.CREATED,
+				title: ReasonPhrases.CREATED,
 				message: 'User created successfully',
 				data: {
 					user: {
@@ -72,11 +73,11 @@ const signup = async (req, res) => {
 	} catch (e) {
 		console.error(e)
 		res
-			.status(500)
+			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
 				status: 'error',
-				code: 500,
-				title: 'INTERNAL_SERVER_ERROR',
+				code: StatusCodes.INTERNAL_SERVER_ERROR,
+				title: ReasonPhrases.INTERNAL_SERVER_ERROR,
 				message: 'Something went wrong',
 				data: null,
 				meta: {
