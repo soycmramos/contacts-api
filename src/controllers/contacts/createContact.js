@@ -2,9 +2,10 @@ import pool from '../../db/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const createContact = async (req, res) => {
-	const { body, uuid, url } = req
+	const { body, uuid, url, user } = req
 	const { name, number } = body
-	const params = [name, number]
+	const { id } = user
+	const params = [name, number, id]
 
 	if (params.some(p => p === undefined || p === null || !String(p.length))) {
 		res
@@ -25,7 +26,7 @@ const createContact = async (req, res) => {
 	}
 
 	try {
-		const [{ insertId: id }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', params)
+		const [{ insertId: id }] = await pool.query('INSERT INTO contacts (name, number, owner) VALUES (?, ?, ?)', params)
 
 		res
 			.status(StatusCodes.CREATED)
