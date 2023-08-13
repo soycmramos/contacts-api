@@ -32,7 +32,7 @@ const getAllContacts = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contacts found successfully',
-				data: { contacts },
+				data: contacts,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: v4(),

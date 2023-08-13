@@ -36,7 +36,7 @@ const getContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact found successfully',
-				data: { contact },
+				data: contact,
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: v4(),

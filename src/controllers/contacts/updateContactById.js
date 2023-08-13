@@ -34,13 +34,7 @@ const updateContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact updated successfully',
-				data: {
-					contact: {
-						id,
-						name,
-						number
-					}
-				},
+				data: { id, name, number },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,

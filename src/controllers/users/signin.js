@@ -69,8 +69,7 @@ const signin = async (req, res) => {
 		}
 
 		const token = await signJWT(user)
-		delete user.password
-		delete user.createdAt
+		const { id, email: userEmail } = user
 
 		res
 			.status(StatusCodes.OK)
@@ -80,7 +79,7 @@ const signin = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'User found successfully',
-				data: { user },
+				data: { id, email: userEmail },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,

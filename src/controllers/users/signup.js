@@ -56,12 +56,7 @@ const signup = async (req, res) => {
 				code: StatusCodes.CREATED,
 				title: ReasonPhrases.CREATED,
 				message: 'User created successfully',
-				data: {
-					user: {
-						id,
-						email
-					}
-				},
+				data: { id, email },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,

@@ -35,13 +35,7 @@ const createContact = async (req, res) => {
 				code: StatusCodes.CREATED,
 				title: ReasonPhrases.CREATED,
 				message: 'Contact created successfully',
-				data: {
-					contact: {
-						id,
-						name,
-						number
-					}
-				},
+				data: { id, name, number },
 				meta: {
 					_timestamp: parseInt(Date.now() / 1000),
 					_uuid: uuid,
