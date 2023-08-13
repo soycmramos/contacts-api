@@ -17,7 +17,7 @@ const signup = async (req, res) => {
 				message: 'All parameters are required',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},
@@ -38,7 +38,7 @@ const signup = async (req, res) => {
 					message: 'User already exists',
 					data: null,
 					meta: {
-						_timestamp: parseInt(Date.now() / 1000),
+						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: uuid,
 						_path: url
 					},
@@ -58,7 +58,7 @@ const signup = async (req, res) => {
 				message: 'User created successfully',
 				data: { id, email },
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},
@@ -76,7 +76,7 @@ const signup = async (req, res) => {
 				message: 'Something went wrong',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},

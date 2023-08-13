@@ -19,7 +19,7 @@ const updateContactById = async (req, res) => {
 					message: 'Contact not found',
 					data: null,
 					meta: {
-						_timestamp: parseInt(Date.now() / 1000),
+						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: uuid,
 						_path: url
 					},
@@ -36,7 +36,7 @@ const updateContactById = async (req, res) => {
 				message: 'Contact updated successfully',
 				data: { id, name, number },
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},
@@ -54,7 +54,7 @@ const updateContactById = async (req, res) => {
 				message: 'Something went wrong',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},

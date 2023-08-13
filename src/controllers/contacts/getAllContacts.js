@@ -17,7 +17,7 @@ const getAllContacts = async (req, res) => {
 					message: 'There is no contacts yet',
 					data: null,
 					meta: {
-						_timestamp: parseInt(Date.now() / 1000),
+						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: v4(),
 						_path: url
 					},
@@ -34,7 +34,7 @@ const getAllContacts = async (req, res) => {
 				message: 'Contacts found successfully',
 				data: contacts,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},
@@ -51,7 +51,7 @@ const getAllContacts = async (req, res) => {
 				message: 'Something went wrong',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},

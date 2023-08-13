@@ -15,7 +15,7 @@ const checkAuth = (req, res, next) => {
 				message: 'Access denied',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},
@@ -35,7 +35,7 @@ const checkAuth = (req, res, next) => {
 				message: 'Access token (JWT) not provided',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},
@@ -53,7 +53,7 @@ const checkAuth = (req, res, next) => {
 				message: 'Unspecified or invalid authentication scheme',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},
@@ -77,7 +77,7 @@ const checkAuth = (req, res, next) => {
 				message: error.message,
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},

@@ -19,7 +19,7 @@ const getContactById = async (req, res) => {
 					message: 'Contact not found',
 					data: null,
 					meta: {
-						_timestamp: parseInt(Date.now() / 1000),
+						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: v4(),
 						_path: url
 					},
@@ -38,7 +38,7 @@ const getContactById = async (req, res) => {
 				message: 'Contact found successfully',
 				data: contact,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},
@@ -55,7 +55,7 @@ const getContactById = async (req, res) => {
 				message: 'Something went wrong',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
 					_path: url
 				},

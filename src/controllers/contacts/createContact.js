@@ -17,7 +17,7 @@ const createContact = async (req, res) => {
 				message: 'All parameters are required',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},
@@ -37,7 +37,7 @@ const createContact = async (req, res) => {
 				message: 'Contact created successfully',
 				data: { id, name, number },
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},
@@ -55,7 +55,7 @@ const createContact = async (req, res) => {
 				message: 'Something went wrong',
 				data: null,
 				meta: {
-					_timestamp: parseInt(Date.now() / 1000),
+					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: url
 				},

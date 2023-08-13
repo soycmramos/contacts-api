@@ -15,7 +15,7 @@ router.get('/ping', (req, res) => {
 			message: 'Pong',
 			data: null,
 			meta: {
-				_timestamp: parseInt(Date.now() / 1000),
+				_timestamp: Math.floor(Date.now() / 1000),
 				_uuid: v4(),
 				_path: url,
 			},
@@ -34,7 +34,7 @@ router.all('*', (req, res) => {
 			message: 'Path not found',
 			data: null,
 			meta: {
-				_timestamp: parseInt(Date.now() / 1000),
+				_timestamp: Math.floor(Date.now() / 1000),
 				_uuid: v4(),
 				_path: url,
 			},
