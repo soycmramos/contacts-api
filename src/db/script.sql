@@ -1,8 +1,10 @@
+CREATE DATABASE db_contacts;
+
+USE db_contacts;
+
 CREATE TABLE IF NOT EXISTS contacts (
 	`id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	`name` VARCHAR(25) NOT NULL,
 	`number` VARCHAR(15) NOT NULL,
-	`owner` INT NOT NULL,
-	`createdAt` TIMESTAMP DEFAULT NOW() NOT NULL,
-	FOREIGN KEY (owner) REFERENCES users(id)
+	`createdAt` TIMESTAMP DEFAULT NOW() NOT NULL
 );

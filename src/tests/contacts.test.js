@@ -4,17 +4,16 @@ import app from '../app.js'
 import pool from '../db/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { MEDIA_TYPE, WRONG_MEDIA_TYPE } from '../utils/constants.js'
-import hashPassword from '../utils/hashPassword.js'
 
 const email = 'example@test.com'
 const password = '@123Test456?'
 const data = { email, password }
 
-describe('POST /users', () => {
+describe('PUT /contacts', () => {
 	it(`should get an invalid or undefined Accept header error exception with title 'Not Acceptable' and status 406`, async () => {
 		try {
 			await request(app)
-				.post('/users')
+				.put('/users')
 				.set('Content-Type', MEDIA_TYPE)
 				.set('Accept', WRONG_MEDIA_TYPE)
 				.send(JSON.stringify(data))
@@ -36,7 +35,7 @@ describe('POST /users', () => {
 	it(`should get an invalid or undefined Content-Type header error exception with title 'Unsupported Media Type' and status 415`, async () => {
 		try {
 			await request(app)
-				.post('/users')
+				.put('/users')
 				.set('Content-Type', WRONG_MEDIA_TYPE)
 				.set('Accept', MEDIA_TYPE)
 				.send(JSON.stringify(data))
@@ -55,10 +54,10 @@ describe('POST /users', () => {
 		}
 	})
 
-	it(`should get an error exception for request body not sent, invalid or undefined with title 'Bad request' and status 400`, async () => {
+	it(`This should get an error exception for request body not sent, invalid or undefined with title "Bad request" and status 400`, async () => {
 		try {
 			await request(app)
-				.post('/users')
+				.put('/users')
 				.set('Content-Type', MEDIA_TYPE)
 				.set('Accept', MEDIA_TYPE)
 				.send(JSON.stringify({}))
@@ -77,10 +76,10 @@ describe('POST /users', () => {
 		}
 	})
 
-	it(`should get an error exception for some required empty or missing field with title 'Bad Request' and status 400`, async () => {
+	it(`That should get an error exception for some required empty or missing field with title 'Bad Request' and status 400`, async () => {
 		try {
 			await request(app)
-				.post('/users')
+				.put('/users')
 				.set('Content-Type', MEDIA_TYPE)
 				.set('Accept', MEDIA_TYPE)
 				.send(JSON.stringify({ email, password: '' }))
@@ -99,51 +98,46 @@ describe('POST /users', () => {
 		}
 	})
 
-	it(`should get an exception for not existing user with title 'Not Found' and status 404`, async () => {
+	it(`should create a new resource in the database and get a success response with title 'Created' and status 201`, async () => {
 		try {
 			await pool.query('DELETE FROM users')
 			await request(app)
-				.post('/users')
+				.put('/users')
 				.set('Content-Type', MEDIA_TYPE)
 				.set('Accept', MEDIA_TYPE)
 				.send(JSON.stringify(data))
 				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.NOT_FOUND)
+				.expect(StatusCodes.CREATED)
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
-					assert.strictEqual(res.body.code, StatusCodes.NOT_FOUND)
-					assert.strictEqual(res.body.title, ReasonPhrases.NOT_FOUND)
-					assert.notExists(res.body.data)
+					assert.strictEqual(res.body.status, 'success')
+					assert.strictEqual(res.body.code, StatusCodes.CREATED)
+					assert.strictEqual(res.body.title, ReasonPhrases.CREATED)
+					assert.exists(res.body.data)
+					assert.isObject(res.body.data)
 				})
 		} catch (error) {
 			console.error(error)
 		}
 	})
 
-	it(`should get an Authorization token header, user data and a successful response with title 'OK' and status 200`, async () => {
+	it(`should get an exception for already existing user with title Conflict and status 409`, async () => {
 		try {
-			const hash = await hashPassword(password)
-			await pool.query('DELETE FROM users')
-			await pool.query(`INSERT INTO users (email, password) VALUES ('${email}', '${hash}')`)
 			await request(app)
-				.post('/users')
+				.put('/users')
 				.set('Content-Type', MEDIA_TYPE)
 				.set('Accept', MEDIA_TYPE)
 				.send(JSON.stringify(data))
 				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.OK)
+				.expect(StatusCodes.CONFLICT)
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'success')
-					assert.strictEqual(res.body.code, StatusCodes.OK)
-					assert.strictEqual(res.body.title, ReasonPhrases.OK)
-					assert.exists(res.body.data)
-					assert.isObject(res.body.data)
-					assert.exists(res.headers['authorization'])
-					assert.include(res.headers['authorization'], 'Bearer ')
+					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.code, StatusCodes.CONFLICT)
+					assert.strictEqual(res.body.title, ReasonPhrases.CONFLICT)
+					assert.notExists(res.body.data)
 				})
 		} catch (error) {
 			console.error(error)

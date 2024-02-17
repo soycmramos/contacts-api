@@ -4,8 +4,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 const createContact = async (req, res) => {
 	const { body, uuid, url, user } = req
 	const { name, number } = body
-	const { id } = user
-	const params = [name, number, id]
+	const params = [name, number]
 
 	if (params.some(p => p === undefined || p === null || !String(p.length))) {
 		res
@@ -26,7 +25,7 @@ const createContact = async (req, res) => {
 	}
 
 	try {
-		const [{ insertId: id }] = await pool.query('INSERT INTO contacts (name, number, owner) VALUES (?, ?, ?)', params)
+		const [{ insertId: id }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', params)
 
 		res
 			.status(StatusCodes.CREATED)

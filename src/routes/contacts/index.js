@@ -2,7 +2,6 @@ import { Router } from 'express'
 const router = Router()
 
 // middlewares
-import checkAuth from '../../middlewares/checkAuth.js'
 import { checkHeaders, checkBody } from '../../middlewares/checkRequest.js'
 
 // routes
@@ -12,7 +11,7 @@ import getContactById from '../../controllers/contacts/getContactById.js'
 import updateContactById from '../../controllers/contacts/updateContactById.js'
 import deleteContactById from '../../controllers/contacts/deleteContactById.js'
 
-router.put('/contacts', checkHeaders, checkBody, checkAuth, createContact)
+router.put('/contacts', checkHeaders, checkBody, createContact)
 router.get('/contacts', checkHeaders, getAllContacts)
 router.get('/contacts/:id', checkHeaders, getContactById)
 router.patch('/contacts/:id', checkHeaders, checkBody, updateContactById)

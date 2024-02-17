@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { config } from 'dotenv'
 import morgan from 'morgan'
-import { contactsRoutes, usersRoutes, defaultRoutes } from './routes/index.js'
+import { contactsRoutes, defaultRoutes } from './routes/index.js'
 
 config()
 
@@ -21,7 +21,6 @@ app.use(helmet())
 app.use(morgan('dev'))
 
 // routes
-app.use(usersRoutes)
 app.use(contactsRoutes)
 app.use(defaultRoutes)
 
