@@ -15,7 +15,7 @@ const getAllContacts = async (req, res) => {
 					code: StatusCodes.NOT_FOUND,
 					title: ReasonPhrases.NOT_FOUND,
 					message: 'There is no contacts yet',
-					data: null,
+					data: [],
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: v4(),

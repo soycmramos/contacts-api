@@ -2,11 +2,11 @@ import pool from '../../db/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const createContact = async (req, res) => {
-	const { body, uuid, url, user } = req
+	const { body, uuid, url } = req
 	const { name, number } = body
 	const params = [name, number]
 
-	if (params.some(p => p === undefined || p === null || !String(p.length))) {
+	if (params.some(p => p === undefined || p === null || !p.length)) {
 		res
 			.status(StatusCodes.BAD_REQUEST)
 			.json({
@@ -44,7 +44,24 @@ const createContact = async (req, res) => {
 
 		return
 	} catch (e) {
-		console.error(e)
+		if (e.code === 'ER_DUP_ENTRY') {
+			res
+				.status(StatusCodes.CONFLICT)
+				.json({
+					status: 'error',
+					code: StatusCodes.CONFLICT,
+					title: ReasonPhrases.CONFLICT,
+					message: 'Contact already axists',
+					data: null,
+					meta: {
+						_timestamp: Math.floor(Date.now() / 1000),
+						_uuid: uuid,
+						_path: url
+					},
+				})
+			return
+		}
+
 		res
 			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
