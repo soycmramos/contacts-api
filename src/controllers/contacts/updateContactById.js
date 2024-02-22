@@ -6,6 +6,24 @@ const updateContactById = async (req, res) => {
 	const { id } = params
 	const { name, number } = body
 
+	if ([name, number].some(p => p !== undefined && p !== null && !p.length)) {
+		res
+			.status(StatusCodes.BAD_REQUEST)
+			.json({
+				status: 'error',
+				code: StatusCodes.BAD_REQUEST,
+				title: ReasonPhrases.BAD_REQUEST,
+				message: 'Invalid empty value',
+				data: null,
+				meta: {
+					_timestamp: Math.floor(Date.now() / 1000),
+					_uuid: uuid,
+					_path: url
+				},
+			})
+		return
+	}
+
 	try {
 		const [{ affectedRows }] = await pool.query('UPDATE contacts SET name = IFNULL(?, name), number = IFNULL(?, number) WHERE id = ?', [name, number, id])
 
