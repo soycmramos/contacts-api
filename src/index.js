@@ -16,8 +16,9 @@ try {
 	const conn = await pool.getConnection()
 	if (conn) {
 		console.log('Database connection successful')
+		pool.releaseConnection(conn)
 	}
 } catch (e) {
-	console.error('Database connection failed')
-	throw e
+	console.error('ERROR: Database connection failed')
+	throw new Error(JSON.stringify(e, null, 2))
 }
