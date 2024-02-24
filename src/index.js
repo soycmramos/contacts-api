@@ -13,8 +13,11 @@ app.listen(app.get('port'), () => {
 })
 
 try {
-	await pool.getConnection()
-	console.log('DB is connected')
+	const conn = await pool.getConnection()
+	if (conn) {
+		console.log('Database connection successful')
+	}
 } catch (e) {
-	console.error(e)
+	console.error('Database connection failed')
+	throw e
 }
