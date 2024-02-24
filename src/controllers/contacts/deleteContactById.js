@@ -58,7 +58,8 @@ const deleteContactById = async (req, res) => {
 					_path: url
 				},
 			})
-		return
+
+		throw new Error(JSON.stringify(e, null, 2))
 	}
 }
 

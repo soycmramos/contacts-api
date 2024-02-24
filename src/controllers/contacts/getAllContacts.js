@@ -41,7 +41,6 @@ const getAllContacts = async (req, res) => {
 			})
 		return
 	} catch (e) {
-		console.error(e)
 		res
 			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
@@ -56,7 +55,8 @@ const getAllContacts = async (req, res) => {
 					_path: url
 				},
 			})
-		return
+
+		throw new Error(JSON.stringify(e, null, 2))
 	}
 }
 
