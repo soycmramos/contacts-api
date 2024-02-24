@@ -1,10 +1,10 @@
 # Contacts API
-A simple contacts Nodejs API with mysql database connection and JWT validation.
+A simple contacts Nodejs API with mysql database connection.
 
 ## Development setup
 
 ```bash
-git clone https://github.com/soycarlosramos/contacts-api.git
+git clone https://github.com/soycmramos/contacts-api.git
 ```
 
 ```bash
@@ -14,6 +14,8 @@ cd contacts-api
 ```bash
 yarn install
 ```
+
+Init your MySQL server (XAMPP/WAMP)
 
 ```bash
 yarn dev
@@ -30,7 +32,6 @@ Check `.env.example` file
 
 ```properties
 PORT
-JWT_SECRET
 DB_HOST
 DB_USER
 DB_PASSWORD
