@@ -1,7 +1,7 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { v4 } from 'uuid'
 
-const MEDIA_TYPE = 'application/json'
+import { MEDIA_TYPE } from '../utils/constants.js'
 const uuid = v4()
 
 const checkHeaders = (req, res, next) => {
