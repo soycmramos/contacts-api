@@ -2,7 +2,7 @@ import pool from '../../conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const updateContactById = async (req, res) => {
-	const { body, params, uuid, url } = req
+	const { body, params, uuid, method, url } = req
 	const { name, number } = body
 	const { id } = params
 
@@ -20,7 +20,7 @@ const updateContactById = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
@@ -44,7 +44,7 @@ const updateContactById = async (req, res) => {
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: uuid,
-						_path: url
+						_path: `${method} ${url}`
 					},
 				})
 			return
@@ -61,7 +61,7 @@ const updateContactById = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 
@@ -78,7 +78,7 @@ const updateContactById = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 

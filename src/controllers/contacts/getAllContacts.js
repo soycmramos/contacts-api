@@ -3,7 +3,7 @@ import pool from '../../conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const getAllContacts = async (req, res) => {
-	const { url } = req
+	const { method, url } = req
 	try {
 		const [contacts] = await pool.query('SELECT * FROM contacts')
 
@@ -19,7 +19,7 @@ const getAllContacts = async (req, res) => {
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: v4(),
-						_path: url
+						_path: `${method} ${url}`
 					},
 				})
 			return
@@ -36,7 +36,7 @@ const getAllContacts = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
@@ -52,7 +52,7 @@ const getAllContacts = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 

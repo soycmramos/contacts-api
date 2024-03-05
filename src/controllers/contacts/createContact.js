@@ -2,7 +2,7 @@ import pool from '../../conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const createContact = async (req, res) => {
-	const { body, uuid, url } = req
+	const { body, uuid, method, url } = req
 	const { name, number } = body
 
 	let data = [name, number]
@@ -19,7 +19,7 @@ const createContact = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
@@ -42,7 +42,7 @@ const createContact = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 
@@ -60,7 +60,7 @@ const createContact = async (req, res) => {
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: uuid,
-						_path: url
+						_path: `${method} ${url}`
 					},
 				})
 			return
@@ -77,7 +77,7 @@ const createContact = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 

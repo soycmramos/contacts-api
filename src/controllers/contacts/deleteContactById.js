@@ -3,7 +3,7 @@ import pool from '../../conn/pool.js'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 const deleteContactById = async (req, res) => {
-	const { params, url } = req
+	const { params, method, url } = req
 	const { id } = params
 
 	try {
@@ -21,7 +21,7 @@ const deleteContactById = async (req, res) => {
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: v4(),
-						_path: url
+						_path: `${method} ${url}`
 					},
 				})
 			return
@@ -38,7 +38,7 @@ const deleteContactById = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
@@ -55,7 +55,7 @@ const deleteContactById = async (req, res) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 

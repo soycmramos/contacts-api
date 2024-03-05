@@ -5,7 +5,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 const router = Router()
 
 router.get('/ping', (req, res) => {
-	const { url } = req
+	const { method, url } = req
 	res
 		.status(StatusCodes.OK)
 		.json({
@@ -17,14 +17,14 @@ router.get('/ping', (req, res) => {
 			meta: {
 				_timestamp: Math.floor(Date.now() / 1000),
 				_uuid: v4(),
-				_path: url,
+				_path: `${method} ${url}`,
 			},
 		})
 	return
 })
 
 router.all('*', (req, res) => {
-	const { url } = req
+	const { method, url } = req
 	res
 		.status(StatusCodes.NOT_FOUND)
 		.json({
@@ -36,7 +36,7 @@ router.all('*', (req, res) => {
 			meta: {
 				_timestamp: Math.floor(Date.now() / 1000),
 				_uuid: v4(),
-				_path: url,
+				_path: `${method} ${url}`,
 			},
 		})
 	return

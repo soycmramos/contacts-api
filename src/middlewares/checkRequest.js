@@ -5,7 +5,7 @@ import { MEDIA_TYPE } from '../utils/constants.js'
 const uuid = v4()
 
 const checkHeaders = (req, res, next) => {
-	const { headers, url } = req
+	const { headers, method, url } = req
 	const accept = headers['accept']
 	const contentType = headers['content-type']
 
@@ -21,7 +21,7 @@ const checkHeaders = (req, res, next) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
@@ -39,7 +39,7 @@ const checkHeaders = (req, res, next) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
@@ -51,7 +51,7 @@ const checkHeaders = (req, res, next) => {
 }
 
 const checkBody = (req, res, next) => {
-	const { body, url } = req
+	const { body, method, url } = req
 
 	if (!Object.keys(body).length) {
 		res
@@ -65,7 +65,7 @@ const checkBody = (req, res, next) => {
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
-					_path: url
+					_path: `${method} ${url}`
 				},
 			})
 		return
