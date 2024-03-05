@@ -10,7 +10,7 @@ const createContact = async (req, res) => {
 		res
 			.status(StatusCodes.BAD_REQUEST)
 			.json({
-				status: 'error',
+				status: 'failure',
 				code: StatusCodes.BAD_REQUEST,
 				title: ReasonPhrases.BAD_REQUEST,
 				message: 'All parameters are required',
@@ -48,7 +48,7 @@ const createContact = async (req, res) => {
 			res
 				.status(StatusCodes.CONFLICT)
 				.json({
-					status: 'error',
+					status: 'failure',
 					code: StatusCodes.CONFLICT,
 					title: ReasonPhrases.CONFLICT,
 					message: 'Contact already axists',
@@ -65,7 +65,7 @@ const createContact = async (req, res) => {
 		res
 			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
-				status: 'error',
+				status: 'failure',
 				code: StatusCodes.INTERNAL_SERVER_ERROR,
 				title: ReasonPhrases.INTERNAL_SERVER_ERROR,
 				message: 'Something went wrong',

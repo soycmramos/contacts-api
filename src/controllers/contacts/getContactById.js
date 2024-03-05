@@ -13,7 +13,7 @@ const getContactById = async (req, res) => {
 			res
 				.status(StatusCodes.NOT_FOUND)
 				.json({
-					status: 'error',
+					status: 'failure',
 					code: StatusCodes.NOT_FOUND,
 					title: ReasonPhrases.NOT_FOUND,
 					message: 'Contact not found',
@@ -48,7 +48,7 @@ const getContactById = async (req, res) => {
 		res
 			.status(StatusCodes.INTERNAL_SERVER_ERROR)
 			.json({
-				status: 'error',
+				status: 'failure',
 				code: StatusCodes.INTERNAL_SERVER_ERROR,
 				title: ReasonPhrases.INTERNAL_SERVER_ERROR,
 				message: 'Something went wrong',

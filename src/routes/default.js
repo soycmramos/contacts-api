@@ -28,7 +28,7 @@ router.all('*', (req, res) => {
 	res
 		.status(StatusCodes.NOT_FOUND)
 		.json({
-			status: 'error',
+			status: 'failure',
 			code: StatusCodes.NOT_FOUND,
 			title: ReasonPhrases.NOT_FOUND,
 			message: 'Path not found',
