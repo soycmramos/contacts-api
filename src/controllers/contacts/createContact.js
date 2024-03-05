@@ -5,12 +5,9 @@ const createContact = async (req, res) => {
 	const { body, uuid, url } = req
 	const { name, number } = body
 
-	const data = [
-		name.trim(),
-		number.trim()
-	]
+	let data = [name, number]
 
-	if (data.some(x => x === undefined || x === null || !x.length)) {
+	if (data.some(x => !Boolean(x) || !x.trim())) {
 		res
 			.status(StatusCodes.BAD_REQUEST)
 			.json({
@@ -28,8 +25,11 @@ const createContact = async (req, res) => {
 		return
 	}
 
+	data = data.map(x => x.trim())
+
 	try {
-		const [{ insertId: id }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', data)
+		const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', data)
+		const [[contact]] = await pool.query('SELECT id, name, number FROM contacts WHERE id = ?', insertId)
 
 		res
 			.status(StatusCodes.CREATED)
@@ -38,7 +38,7 @@ const createContact = async (req, res) => {
 				code: StatusCodes.CREATED,
 				title: ReasonPhrases.CREATED,
 				message: 'Contact created successfully',
-				data: { id, name, number },
+				data: contact,
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,

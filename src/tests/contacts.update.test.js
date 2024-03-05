@@ -22,7 +22,7 @@ describe('PATCH /contacts', () => {
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.status, 'failure')
 					assert.strictEqual(res.body.code, StatusCodes.NOT_ACCEPTABLE)
 					assert.strictEqual(res.body.title, ReasonPhrases.NOT_ACCEPTABLE)
 					assert.isNull(res.body.data)
@@ -44,7 +44,7 @@ describe('PATCH /contacts', () => {
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.status, 'failure')
 					assert.strictEqual(res.body.code, StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 					assert.strictEqual(res.body.title, ReasonPhrases.UNSUPPORTED_MEDIA_TYPE)
 					assert.isNull(res.body.data)
@@ -67,7 +67,7 @@ describe('PATCH /contacts', () => {
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.status, 'failure')
 					assert.strictEqual(res.body.code, StatusCodes.NOT_FOUND)
 					assert.strictEqual(res.body.title, ReasonPhrases.NOT_FOUND)
 					assert.isNull(res.body.data)
@@ -91,7 +91,7 @@ describe('PATCH /contacts', () => {
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.status, 'failure')
 					assert.strictEqual(res.body.code, StatusCodes.BAD_REQUEST)
 					assert.strictEqual(res.body.title, ReasonPhrases.BAD_REQUEST)
 					assert.isNull(res.body.data)

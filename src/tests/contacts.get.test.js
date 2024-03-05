@@ -21,7 +21,7 @@ describe('GET /contacts', () => {
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.status, 'failure')
 					assert.strictEqual(res.body.code, StatusCodes.NOT_FOUND)
 					assert.strictEqual(res.body.title, ReasonPhrases.NOT_FOUND)
 					assert.isArray(res.body.data)
@@ -68,7 +68,7 @@ describe('GET /contacts', () => {
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'error')
+					assert.strictEqual(res.body.status, 'failure')
 					assert.strictEqual(res.body.code, StatusCodes.NOT_FOUND)
 					assert.strictEqual(res.body.title, ReasonPhrases.NOT_FOUND)
 					assert.isNull(res.body.data)
