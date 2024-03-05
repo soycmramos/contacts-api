@@ -6,12 +6,9 @@ const updateContactById = async (req, res) => {
 	const { name, number } = body
 	const { id } = params
 
-	const data = [
-		name.trim(),
-		number.trim()
-	]
+	let data = [name, number]
 
-	if (data.some(x => x !== undefined && x !== null && !x.length)) {
+	if (data.some(x => typeof x === 'string' && !x.trim())) {
 		res
 			.status(StatusCodes.BAD_REQUEST)
 			.json({
@@ -29,8 +26,11 @@ const updateContactById = async (req, res) => {
 		return
 	}
 
+	data = data.map(x => x && x.trim())
+
 	try {
-		const [{ affectedRows }] = await pool.query('UPDATE contacts SET name = IFNULL(?, name), number = IFNULL(?, number) WHERE id = ?', [name, number, id])
+		const [{ affectedRows }] = await pool.query('UPDATE contacts SET name = IFNULL(?, name), number = IFNULL(?, number) WHERE id = ?', [...data, id])
+		const [[contact]] = await pool.query('SELECT id, name, number FROM contacts WHERE id = ?', id)
 
 		if (!Boolean(affectedRows)) {
 			res
@@ -57,7 +57,7 @@ const updateContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact updated successfully',
-				data: { id, name, number },
+				data: contact,
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
