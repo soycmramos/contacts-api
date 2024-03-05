@@ -3,10 +3,15 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const updateContactById = async (req, res) => {
 	const { body, params, uuid, url } = req
-	const { id } = params
 	const { name, number } = body
+	const { id } = params
 
-	if ([name, number].some(p => p !== undefined && p !== null && !p.length)) {
+	const data = [
+		name.trim(),
+		number.trim()
+	]
+
+	if (data.some(x => x !== undefined && x !== null && !x.length)) {
 		res
 			.status(StatusCodes.BAD_REQUEST)
 			.json({
