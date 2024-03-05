@@ -10,7 +10,7 @@ const number = '9876543210'
 const data = { name, number }
 
 describe('PUT /contacts', () => {
-	it.only(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
+	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
 		try {
 			await request(app)
 				.put('/contacts')
@@ -32,7 +32,7 @@ describe('PUT /contacts', () => {
 		}
 	})
 
-	it.only(`should get a 415 type error exception with title "Unsupported Media Type" and null data due to unsupported or empty "Content Type" header`, async () => {
+	it(`should get a 415 type error exception with title "Unsupported Media Type" and null data due to unsupported or empty "Content Type" header`, async () => {
 		try {
 			await request(app)
 				.put('/contacts')
@@ -54,7 +54,7 @@ describe('PUT /contacts', () => {
 		}
 	})
 
-	it.only(`should get a 400 type error exception with title "Bad Request" and null data due to an unsent, invalid, or undefined request body`, async () => {
+	it(`should get a 400 type error exception with title "Bad Request" and null data due to an unsent, invalid, or undefined request body`, async () => {
 		try {
 			await request(app)
 				.put('/contacts')
@@ -76,7 +76,7 @@ describe('PUT /contacts', () => {
 		}
 	})
 
-	it.only(`should get a 400 type error exception with title "Bad Request" and null data due to missing or empty required field`, async () => {
+	it(`should get a 400 type error exception with title "Bad Request" and null data due to missing or empty required field`, async () => {
 		try {
 			await request(app)
 				.put('/contacts')
@@ -98,7 +98,7 @@ describe('PUT /contacts', () => {
 		}
 	})
 
-	it.only(`should get a 201 response with title "Created" and valid data when creating a new resource in the database`, async () => {
+	it(`should get a 201 response with title "Created" and valid data when creating a new resource in the database`, async () => {
 		try {
 			await pool.query('DELETE FROM contacts')
 			await request(app)
@@ -122,7 +122,7 @@ describe('PUT /contacts', () => {
 		}
 	})
 
-	it.only(`should get a 409 type error exception with title "Conflict" and null data due to create an already existing resource`, async () => {
+	it(`should get a 409 type error exception with title "Conflict" and null data due to create an already existing resource`, async () => {
 		try {
 			await request(app)
 				.put('/contacts')
