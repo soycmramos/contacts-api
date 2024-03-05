@@ -13,7 +13,7 @@ const checkHeaders = (req, res, next) => {
 		res
 			.status(StatusCodes.NOT_ACCEPTABLE)
 			.json({
-				status: 'failure',
+				status: 'error',
 				code: StatusCodes.NOT_ACCEPTABLE,
 				title: ReasonPhrases.NOT_ACCEPTABLE,
 				message: 'Media type required is not accetable',
@@ -31,7 +31,7 @@ const checkHeaders = (req, res, next) => {
 		res
 			.status(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 			.json({
-				status: 'failure',
+				status: 'error',
 				code: StatusCodes.UNSUPPORTED_MEDIA_TYPE,
 				title: ReasonPhrases.UNSUPPORTED_MEDIA_TYPE,
 				message: 'Media type submitted is not supported',
