@@ -1,0 +1,52 @@
+name: Deployment Pipeline
+
+on:
+  # pull_request:
+  #   branches: [main]
+  #   types: [opened, synchronize]
+  # push:
+  #   branches: [main]
+  push:
+    branches: [feature]
+
+jobs:
+  Cancel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          token: ${{ github.token }}
+
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chekout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Nodejs environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+      - name: Install dependencies
+        run: yarn install
+      - name: Testing
+        run: yarn test
+
+  Deploy:
+    needs: ["Test"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chekout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Nodejs environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+      - name: Install dependencies
+        run: yarn install
+      - name: Deploy
+        run: echo Deploy
