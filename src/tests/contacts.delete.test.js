@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { assert } from 'chai'
 import app from '../app.js'
-import pool from '../db/pool.js'
+import pool from '../conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { MEDIA_TYPE, WRONG_MEDIA_TYPE } from '../utils/constants.js'
 

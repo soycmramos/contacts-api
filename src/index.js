@@ -1,5 +1,5 @@
 import app from './app.js'
-import pool from './db/pool.js'
+import pool from './conn/pool.js'
 const { NODE_ENV } = process.env
 
 app.listen(app.get('port'), () => {

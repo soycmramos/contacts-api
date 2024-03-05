@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import pool from '../../db/pool.js'
+import pool from '../../conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const getContactById = async (req, res) => {

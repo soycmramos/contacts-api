@@ -1,4 +1,4 @@
-import pool from '../../db/pool.js'
+import pool from '../../conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const createContact = async (req, res) => {
