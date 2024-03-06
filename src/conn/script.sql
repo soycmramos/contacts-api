@@ -1,8 +1,8 @@
-CREATE DATABASE db_contacts;
+CREATE DATABASE `db_contacts`;
 
 USE `db_contacts`;
 
-DELETE DATABASE IF EXISTS `contacts`
+DELETE TABLE IF EXISTS `contacts`;
 
 CREATE TABLE `contacts` (
 	`id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,

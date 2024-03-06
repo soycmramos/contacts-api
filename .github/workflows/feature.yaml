@@ -1,11 +1,6 @@
-name: Deployment Pipeline
+name: Pipeline - feature
 
 on:
-  # pull_request:
-  #   branches: [main]
-  #   types: [opened, synchronize]
-  # push:
-  #   branches: [main]
   push:
     branches: [feature]
 
@@ -18,35 +13,41 @@ jobs:
         with:
           token: ${{ github.token }}
 
-  Test:
+  Testing:
     runs-on: ubuntu-latest
     steps:
-      - name: Chekout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Nodejs environment
+      - name: Setup Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: "latest"
+          node-version: latest
       - name: Install dependencies
         run: yarn install
-      - name: Testing
+      - name: Run tests
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
         run: yarn test
 
-  Deploy:
-    needs: ["Test"]
+  Deploy-Development:
+    if: ${{ github.event_name == 'push' }}
+    needs: [Testing]
     runs-on: ubuntu-latest
     steps:
-      - name: Chekout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup Nodejs environment
         uses: actions/setup-node@v4
         with:
-          node-version: "latest"
+          node-version: latest
       - name: Install dependencies
         run: yarn install
       - name: Deploy
-        run: echo Deploy
+        run: echo Deploy Development
