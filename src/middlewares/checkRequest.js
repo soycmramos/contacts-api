@@ -1,7 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { v4 } from 'uuid'
 
-import { MEDIA_TYPE } from '../utils/constants.js'
 const uuid = v4()
 
 const checkHeaders = (req, res, next) => {
@@ -9,7 +8,7 @@ const checkHeaders = (req, res, next) => {
 	const accept = headers['accept']
 	const contentType = headers['content-type']
 
-	if (!accept || accept !== MEDIA_TYPE) {
+	if (!accept || accept !== 'application/json') {
 		res
 			.status(StatusCodes.NOT_ACCEPTABLE)
 			.json({
@@ -27,7 +26,7 @@ const checkHeaders = (req, res, next) => {
 		return
 	}
 
-	if (!contentType || contentType !== MEDIA_TYPE) {
+	if (!contentType || contentType !== 'application/json') {
 		res
 			.status(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 			.json({

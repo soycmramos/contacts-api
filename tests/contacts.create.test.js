@@ -1,9 +1,8 @@
 import request from 'supertest'
 import { assert } from 'chai'
-import app from '../app.js'
-import pool from '../conn/pool.js'
+import app from '../src/app.js'
+import pool from '../src/conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import { MEDIA_TYPE, WRONG_MEDIA_TYPE } from '../utils/constants.js'
 
 const name = 'Jhon Doe'
 const number = '9876543210'
@@ -14,8 +13,8 @@ describe('PUT /contacts', () => {
 		try {
 			await request(app)
 				.put('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', WRONG_MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'xxx/xxx')
 				.send(JSON.stringify(data))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
@@ -36,8 +35,8 @@ describe('PUT /contacts', () => {
 		try {
 			await request(app)
 				.put('/contacts')
-				.set('Content-Type', WRONG_MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'xxx/xxx')
+				.set('Accept', 'application/json')
 				.send(JSON.stringify(data))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
@@ -58,8 +57,8 @@ describe('PUT /contacts', () => {
 		try {
 			await request(app)
 				.put('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.send(JSON.stringify({}))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.BAD_REQUEST)
@@ -80,8 +79,8 @@ describe('PUT /contacts', () => {
 		try {
 			await request(app)
 				.put('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.send(JSON.stringify({ name, number: '' }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.BAD_REQUEST)
@@ -103,8 +102,8 @@ describe('PUT /contacts', () => {
 			await pool.query('DELETE FROM contacts')
 			await request(app)
 				.put('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.send(JSON.stringify(data))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.CREATED)
@@ -126,8 +125,8 @@ describe('PUT /contacts', () => {
 		try {
 			await request(app)
 				.put('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.send(JSON.stringify(data))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.CONFLICT)

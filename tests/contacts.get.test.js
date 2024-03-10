@@ -1,9 +1,8 @@
 import request from 'supertest'
 import { assert } from 'chai'
-import app from '../app.js'
-import pool from '../conn/pool.js'
+import app from '../src/app.js'
+import pool from '../src/conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import { MEDIA_TYPE } from '../utils/constants.js'
 
 const name = 'Jhon Doe'
 const number = '9876543210'
@@ -14,8 +13,8 @@ describe('GET /contacts', () => {
 			await pool.query('DELETE FROM contacts')
 			await request(app)
 				.get('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_FOUND)
 				.expect(res => {
@@ -38,8 +37,8 @@ describe('GET /contacts', () => {
 			await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
 			await request(app)
 				.get('/contacts')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.OK)
 				.expect(res => {
@@ -61,8 +60,8 @@ describe('GET /contacts', () => {
 			await pool.query('DELETE FROM contacts')
 			await request(app)
 				.get('/contacts/1')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_FOUND)
 				.expect(res => {
@@ -84,8 +83,8 @@ describe('GET /contacts', () => {
 			const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
 			await request(app)
 				.get(`/contacts/${insertId}`)
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.OK)
 				.expect(res => {

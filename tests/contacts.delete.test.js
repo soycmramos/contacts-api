@@ -1,9 +1,8 @@
 import request from 'supertest'
 import { assert } from 'chai'
-import app from '../app.js'
-import pool from '../conn/pool.js'
+import app from '../src/app.js'
+import pool from '../src/conn/pool.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import { MEDIA_TYPE, WRONG_MEDIA_TYPE } from '../utils/constants.js'
 
 const name = 'Jhon Doe'
 const number = '9876543210'
@@ -15,8 +14,8 @@ describe('DELETE /contacts/:id', () => {
 			const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
 			await request(app)
 				.delete(`/contacts/${insertId}`)
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', WRONG_MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'xxx/xxx')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
 				.expect(res => {
@@ -38,8 +37,8 @@ describe('DELETE /contacts/:id', () => {
 			const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
 			await request(app)
 				.delete(`/contacts/${insertId}`)
-				.set('Content-Type', WRONG_MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'xxx/xxx')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 				.expect(res => {
@@ -60,8 +59,8 @@ describe('DELETE /contacts/:id', () => {
 			await pool.query('DELETE FROM contacts')
 			await request(app)
 				.delete('/contacts/0')
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_FOUND)
 				.expect(res => {
@@ -83,8 +82,8 @@ describe('DELETE /contacts/:id', () => {
 			const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
 			await request(app)
 				.delete(`/contacts/${insertId}`)
-				.set('Content-Type', MEDIA_TYPE)
-				.set('Accept', MEDIA_TYPE)
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.OK)
 				.expect(res => {
