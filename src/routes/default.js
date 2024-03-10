@@ -4,24 +4,19 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const router = Router()
 
-router.get('/ping', (req, res) => {
-	const { method, url } = req
-	res
-		.status(StatusCodes.OK)
-		.json({
-			status: 'success',
-			code: StatusCodes.OK,
-			title: ReasonPhrases.OK,
-			message: 'Pong',
-			data: null,
-			meta: {
-				_timestamp: Math.floor(Date.now() / 1000),
-				_uuid: v4(),
-				_path: `${method} ${url}`,
-			},
-		})
-	return
-})
+/**
+ * @openapi
+ * /health:
+ *   head:
+ *     description: Test API health
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: Returns a successful response
+ */
+router.head('/health', (req, res) => res.send(StatusCodes.OK))
+
+router.get('/', (req, res) => res.redirect('/api-docs'))
 
 router.all('*', (req, res) => {
 	const { method, url } = req
