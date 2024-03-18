@@ -30,15 +30,3 @@ Open ./mochawesome-report/mochawesome.html in browser
 ![Testing](./src/public/tests.jpeg)
 
 Go to /api-docs to see the signature documentation
-
-## ENV File
-
-Check `.env.example` file
-
-```properties
-PORT
-DB_HOST
-DB_USER
-DB_PASSWORD
-DB_NAME
-```
