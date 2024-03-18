@@ -1,12 +1,11 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { assert } from 'chai'
 import app from '../src/app.js'
-import pool from '../src/conn/pool.js'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import Contact from '../src/models/Contact.js'
 
 const name = 'Jhon Doe'
 const number = '9876543210'
-const data = { name, number }
 
 describe('PUT /contacts', () => {
 	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
@@ -15,7 +14,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'xxx/xxx')
-				.send(JSON.stringify(data))
+				.send(JSON.stringify({ name, number }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
 				.expect(res => {
@@ -37,7 +36,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'xxx/xxx')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify(data))
+				.send(JSON.stringify({ name, number }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 				.expect(res => {
@@ -99,12 +98,12 @@ describe('PUT /contacts', () => {
 
 	it(`should get a 201 response with title "Created" and valid data when creating a new resource in the database`, async () => {
 		try {
-			await pool.query('DELETE FROM contacts')
+			await Contact.destroy({ truncate: true })
 			await request(app)
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify(data))
+				.send(JSON.stringify({ name, number }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.CREATED)
 				.expect(res => {
@@ -127,7 +126,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify(data))
+				.send(JSON.stringify({ name, number }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.CONFLICT)
 				.expect(res => {

@@ -1,8 +1,8 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { assert } from 'chai'
 import app from '../src/app.js'
-import pool from '../src/conn/pool.js'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import Contact from '../src/models/Contact.js'
 
 const name = 'Jhon Doe'
 const number = '9876543210'
@@ -10,7 +10,7 @@ const number = '9876543210'
 describe('GET /contacts', () => {
 	it(`should get a 404 type error exception with title "Not Found" and an empty list of data`, async () => {
 		try {
-			await pool.query('DELETE FROM contacts')
+			await Contact.destroy({ truncate: true })
 			await request(app)
 				.get('/contacts')
 				.set('Content-Type', 'application/json')
@@ -33,8 +33,8 @@ describe('GET /contacts', () => {
 
 	it(`should get a 200 response with title "OK" and a list of valid data`, async () => {
 		try {
-			await pool.query('DELETE FROM contacts')
-			await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
+			await Contact.destroy({ truncate: true })
+			await Contact.create({ name, number })
 			await request(app)
 				.get('/contacts')
 				.set('Content-Type', 'application/json')
@@ -57,7 +57,7 @@ describe('GET /contacts', () => {
 
 	it(`should get a 404 error exception with title "Not Found" because the resource does not exist"`, async () => {
 		try {
-			await pool.query('DELETE FROM contacts')
+			await Contact.destroy({ truncate: true })
 			await request(app)
 				.get('/contacts/1')
 				.set('Content-Type', 'application/json')
@@ -79,10 +79,10 @@ describe('GET /contacts', () => {
 
 	it(`should get a 200 response with title "OK" and an the requested resource by its ID`, async () => {
 		try {
-			await pool.query('DELETE FROM contacts')
-			const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', [name, number])
+			await Contact.destroy({ truncate: true })
+			const response = await Contact.create({ name, number })
 			await request(app)
-				.get(`/contacts/${insertId}`)
+				.get(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
 				.expect('Content-Type', /application\/json/)
