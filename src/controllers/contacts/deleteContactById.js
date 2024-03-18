@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import pool from '../../conn/pool.js'
+import Contact from '../../models/Contact.js'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 const deleteContactById = async (req, res) => {
@@ -7,9 +7,9 @@ const deleteContactById = async (req, res) => {
 	const { id } = params
 
 	try {
-		const [{ affectedRows }] = await pool.query('DELETE FROM contacts WHERE id = ?', id)
+		const response = await Contact.destroy({ where: { id } })
 
-		if (!Boolean(affectedRows)) {
+		if (!Boolean(response)) {
 			res
 				.status(StatusCodes.NOT_FOUND)
 				.json({

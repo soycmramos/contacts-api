@@ -1,11 +1,11 @@
 import { v4 } from 'uuid'
-import pool from '../../conn/pool.js'
+import Contact from '../../models/Contact.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const getAllContacts = async (req, res) => {
 	const { method, url } = req
 	try {
-		const [contacts] = await pool.query('SELECT * FROM contacts')
+		const contacts = await Contact.findAll()
 
 		if (!contacts.length) {
 			res
@@ -32,7 +32,11 @@ const getAllContacts = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contacts found successfully',
-				data: contacts,
+				data: contacts.map(contact => ({
+					id: contact.id,
+					name: contact.name,
+					number: contact.number
+				})),
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),

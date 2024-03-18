@@ -1,4 +1,4 @@
-import pool from '../../conn/pool.js'
+import Contact from '../../models/Contact.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const updateContactById = async (req, res) => {
@@ -29,10 +29,9 @@ const updateContactById = async (req, res) => {
 	data = data.map(x => x && x.trim())
 
 	try {
-		const [{ affectedRows }] = await pool.query('UPDATE contacts SET name = IFNULL(?, name), number = IFNULL(?, number) WHERE id = ?', [...data, id])
-		const [[contact]] = await pool.query('SELECT id, name, number FROM contacts WHERE id = ?', id)
+		let [response] = await Contact.update({ name, number }, { where: { id } })
 
-		if (!Boolean(affectedRows)) {
+		if (!Boolean(response)) {
 			res
 				.status(StatusCodes.NOT_FOUND)
 				.json({
@@ -50,6 +49,8 @@ const updateContactById = async (req, res) => {
 			return
 		}
 
+		response = await Contact.findOne({ where: { id } })
+
 		res
 			.status(StatusCodes.OK)
 			.json({
@@ -57,7 +58,11 @@ const updateContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact updated successfully',
-				data: contact,
+				data: {
+					id: response.id,
+					name: response.name,
+					number: response.number
+				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,

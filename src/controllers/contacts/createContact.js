@@ -1,4 +1,4 @@
-import pool from '../../conn/pool.js'
+import Contact from '../../models/Contact.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const createContact = async (req, res) => {
@@ -28,8 +28,7 @@ const createContact = async (req, res) => {
 	data = data.map(x => x.trim())
 
 	try {
-		const [{ insertId }] = await pool.query('INSERT INTO contacts (name, number) VALUES (?, ?)', data)
-		const [[contact]] = await pool.query('SELECT id, name, number FROM contacts WHERE id = ?', insertId)
+		const response = await Contact.create({ name, number })
 
 		res
 			.status(StatusCodes.CREATED)
@@ -38,7 +37,11 @@ const createContact = async (req, res) => {
 				code: StatusCodes.CREATED,
 				title: ReasonPhrases.CREATED,
 				message: 'Contact created successfully',
-				data: contact,
+				data: {
+					id: response.id,
+					name: response.name,
+					number: response.number
+				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
@@ -48,7 +51,7 @@ const createContact = async (req, res) => {
 
 		return
 	} catch (e) {
-		if (e.code === 'ER_DUP_ENTRY') {
+		if (e.name === 'SequelizeUniqueConstraintError') {
 			res
 				.status(StatusCodes.CONFLICT)
 				.json({

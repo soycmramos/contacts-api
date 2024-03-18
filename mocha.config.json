@@ -1,6 +1,6 @@
 {
 	"reporter": "mochawesome",
 	"spec": [
-		"./tests/**/*.js"
+		"./tests/**/*.test.js"
 	]
 }

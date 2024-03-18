@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import pool from '../../conn/pool.js'
+import Contact from '../../models/Contact.js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const getContactById = async (req, res) => {
@@ -7,9 +7,9 @@ const getContactById = async (req, res) => {
 	const { id } = params
 
 	try {
-		const [rows] = await pool.query('SELECT * FROM contacts WHERE id = ?', id)
+		const contact = await Contact.findOne({ where: { id } })
 
-		if (!rows.length) {
+		if (!contact) {
 			res
 				.status(StatusCodes.NOT_FOUND)
 				.json({
@@ -27,8 +27,6 @@ const getContactById = async (req, res) => {
 			return
 		}
 
-		const [contact] = rows
-
 		res
 			.status(StatusCodes.OK)
 			.json({
@@ -36,7 +34,11 @@ const getContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact found successfully',
-				data: contact,
+				data: {
+					id: contact.id,
+					name: contact.name,
+					number: contact.number
+				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),
