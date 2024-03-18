@@ -1,6 +1,5 @@
 # Contacts API
-A simple contacts Nodejs API with mysql database connection.
-Este es un ejemplo de texto.
+Express application to manage contacts with SQLite database
 
 ## Development setup
 
@@ -16,17 +15,22 @@ cd contacts-api
 yarn install
 ```
 
-Init your MySQL server (XAMPP/WAMP)
-
 ```bash
 yarn dev
 ```
 
-# Testing
+## Testing
 
 ```bash
 yarn test
 ```
+
+Open ./mochawesome-report/mochawesome.html in browser
+
+![Testing](./src/public/tests.jpeg)
+
+Go to /api-docs to see the signature documentation
+
 ## ENV File
 
 Check `.env.example` file
