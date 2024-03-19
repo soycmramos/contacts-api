@@ -11,12 +11,6 @@
 		"test": "cross-env NODE_ENV=test rimraf mochawesome-report && mocha --config mocha.config.json --exit",
 		"start": "cross-env NODE_ENV=production node ./src/index.js"
 	},
-	"keywords": [
-		"REST API",
-		"Nodejs",
-		"Express",
-		"Contacts"
-	],
 	"dependencies": {
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
