@@ -1,14 +1,14 @@
-# Contacts API
+# Management Contacts API
 Express application to manage contacts with SQLite database
 
 ## Development setup
 
 ```bash
-git clone https://github.com/soycmramos/contacts-api.git
+git clone https://github.com/soycmramos/management-contacts-api.git
 ```
 
 ```bash
-cd contacts-api
+cd management-contacts-api
 ```
 
 ```bash

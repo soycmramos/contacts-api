@@ -1,9 +1,9 @@
 {
-	"name": "contacts-api",
+	"name": "management-contacts-api",
 	"version": "1.0.0",
 	"description": "A simple Nodejs API with mysql database connection for management contacts",
 	"main": "./src/index.js",
-	"repository": "https://github.com/soycmramos/contacts-api.git",
+	"repository": "https://github.com/soycmramos/management-contacts-api.git",
 	"author": "Carlos Ramos <carlosmarioramos34@gmail.com>",
 	"type": "module",
 	"scripts": {
