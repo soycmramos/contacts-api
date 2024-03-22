@@ -19,6 +19,8 @@ yarn install
 yarn dev
 ```
 
+Go to http://localhost:5000/api-docs to see the signature documentation
+
 ## Testing
 
 ```bash
@@ -28,5 +30,3 @@ yarn test
 Open ./mochawesome-report/mochawesome.html in browser
 
 ![Testing](./src/public/tests.jpeg)
-
-Go to /api-docs to see the signature documentation
