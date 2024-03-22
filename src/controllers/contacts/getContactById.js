@@ -37,7 +37,7 @@ const getContactById = async (req, res) => {
 				data: {
 					id: contact.id,
 					name: contact.name,
-					number: contact.number
+					phone: contact.phone
 				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),

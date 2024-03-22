@@ -5,7 +5,7 @@ import app from '../src/app.js'
 import Contact from '../src/models/Contact.js'
 
 const name = 'Jhon Doe'
-const number = '9876543210'
+const phone = '9876543210'
 
 describe('PUT /contacts', () => {
 	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
@@ -14,7 +14,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'xxx/xxx')
-				.send(JSON.stringify({ name, number }))
+				.send(JSON.stringify({ name, phone }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
 				.expect(res => {
@@ -36,7 +36,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'xxx/xxx')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, number }))
+				.send(JSON.stringify({ name, phone }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 				.expect(res => {
@@ -80,7 +80,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, number: '' }))
+				.send(JSON.stringify({ name, phone: '' }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.BAD_REQUEST)
 				.expect(res => {
@@ -103,7 +103,7 @@ describe('PUT /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, number }))
+				.send(JSON.stringify({ name, phone }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.CREATED)
 				.expect(res => {
@@ -114,28 +114,6 @@ describe('PUT /contacts', () => {
 					assert.strictEqual(res.body.title, ReasonPhrases.CREATED)
 					assert.exists(res.body.data)
 					assert.isObject(res.body.data)
-				})
-		} catch (error) {
-			throw Error(error)
-		}
-	})
-
-	it(`should get a 409 type error exception with title "Conflict" and null data due to create an already existing resource`, async () => {
-		try {
-			await request(app)
-				.put('/contacts')
-				.set('Content-Type', 'application/json')
-				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, number }))
-				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.CONFLICT)
-				.expect(res => {
-					assert.exists(res.body)
-					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'failure')
-					assert.strictEqual(res.body.code, StatusCodes.CONFLICT)
-					assert.strictEqual(res.body.title, ReasonPhrases.CONFLICT)
-					assert.isNull(res.body.data)
 				})
 		} catch (error) {
 			throw Error(error)

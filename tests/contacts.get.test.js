@@ -5,7 +5,7 @@ import app from '../src/app.js'
 import Contact from '../src/models/Contact.js'
 
 const name = 'Jhon Doe'
-const number = '9876543210'
+const phone = '9876543210'
 
 describe('GET /contacts', () => {
 	it(`should get a 404 type error exception with title "Not Found" and an empty list of data`, async () => {
@@ -34,7 +34,7 @@ describe('GET /contacts', () => {
 	it(`should get a 200 response with title "OK" and a list of valid data`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			await Contact.create({ name, number })
+			await Contact.create({ name, phone })
 			await request(app)
 				.get('/contacts')
 				.set('Content-Type', 'application/json')
@@ -80,7 +80,7 @@ describe('GET /contacts', () => {
 	it(`should get a 200 response with title "OK" and an the requested resource by its ID`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.get(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
@@ -95,7 +95,7 @@ describe('GET /contacts', () => {
 					assert.strictEqual(res.body.title, ReasonPhrases.OK)
 					assert.isObject(res.body.data)
 					assert.isString(res.body.data.name)
-					assert.isString(res.body.data.number)
+					assert.isString(res.body.data.phone)
 				})
 		} catch (error) {
 			throw Error(error)

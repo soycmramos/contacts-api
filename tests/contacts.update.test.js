@@ -5,7 +5,7 @@ import app from '../src/app.js'
 import Contact from '../src/models/Contact.js'
 
 const name = 'Jhon Doe'
-const number = '9876543210'
+const phone = '9876543210'
 
 describe('PATCH /contacts', () => {
 	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
@@ -14,7 +14,7 @@ describe('PATCH /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'xxx/xxx')
-				.send(JSON.stringify({ name, number }))
+				.send(JSON.stringify({ name, phone }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
 				.expect(res => {
@@ -36,7 +36,7 @@ describe('PATCH /contacts', () => {
 				.put('/contacts')
 				.set('Content-Type', 'xxx/xxx')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, number }))
+				.send(JSON.stringify({ name, phone }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 				.expect(res => {
@@ -59,7 +59,7 @@ describe('PATCH /contacts', () => {
 				.patch('/contacts/0')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, number }))
+				.send(JSON.stringify({ name, phone }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_FOUND)
 				.expect(res => {
@@ -78,12 +78,12 @@ describe('PATCH /contacts', () => {
 	it(`should get a 400 type error exception with title "Bad Request" and null data due to some empty parameter`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.patch(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name: 'Hailee Steinfeld', number: '' }))
+				.send(JSON.stringify({ name: 'Hailee Steinfeld', phone: '' }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.BAD_REQUEST)
 				.expect(res => {
@@ -102,7 +102,7 @@ describe('PATCH /contacts', () => {
 	it(`should get a 200 response with title "Ok" to partially update the resource (name)`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.patch(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
@@ -123,15 +123,15 @@ describe('PATCH /contacts', () => {
 		}
 	})
 
-	it(`should get a 200 response with title "Ok" to partially update the resource (number)`, async () => {
+	it(`should get a 200 response with title "Ok" to partially update the resource (phone)`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.patch(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ number: '0000000000' }))
+				.send(JSON.stringify({ phone: '0000000000' }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.OK)
 				.expect(res => {
@@ -147,15 +147,15 @@ describe('PATCH /contacts', () => {
 		}
 	})
 
-	it(`should get a 200 response with title "Ok" to fully update the resource (name and number)`, async () => {
+	it(`should get a 200 response with title "Ok" to fully update the resource (name and phone)`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.patch(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name: 'Anna Kendrick', number: '00000000000' }))
+				.send(JSON.stringify({ name: 'Anna Kendrick', phone: '00000000000' }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.OK)
 				.expect(res => {

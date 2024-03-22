@@ -5,13 +5,13 @@ import app from '../src/app.js'
 import Contact from '../src/models/Contact.js'
 
 const name = 'Jhon Doe'
-const number = '9876543210'
+const phone = '9876543210'
 
 describe('DELETE /contacts/:id', () => {
 	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.delete(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
@@ -34,7 +34,7 @@ describe('DELETE /contacts/:id', () => {
 	it(`should get a 415 type error exception with title "Unsupported Media Type" and null data due to unsupported or empty "Content Type" header`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.delete(`/contacts/${response.id}`)
 				.set('Content-Type', 'xxx/xxx')
@@ -79,7 +79,7 @@ describe('DELETE /contacts/:id', () => {
 	it(`should get a 200 response with title "OK" and null data when deleting the resource by its ID`, async () => {
 		try {
 			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, number })
+			const response = await Contact.create({ name, phone })
 			await request(app)
 				.delete(`/contacts/${response.id}`)
 				.set('Content-Type', 'application/json')
