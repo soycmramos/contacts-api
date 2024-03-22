@@ -43,15 +43,15 @@ import deleteContactById from '../../controllers/contacts/deleteContactById.js'
  *               name:
  *                 type: string
  *                 description: Contact name
- *               number:
+ *               phone:
  *                 type: string
- *                 description: Contact number
+ *                 description: Contact phone
  *             required:
  *               - name
- *               - number
+ *               - phone
  *           example:
  *             name: Hailee Steinfeld
- *             number: '5550000123'
+ *             phone: '5550000123'
  *     responses:
  *       200:
  *         description: Success response
@@ -64,7 +64,7 @@ import deleteContactById from '../../controllers/contacts/deleteContactById.js'
  *                   type: string
  *                   description: Status response
  *                 code:
- *                   type: number
+ *                   type: phone
  *                   description: Code response
  *                 title:
  *                   type: string

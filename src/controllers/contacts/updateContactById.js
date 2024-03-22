@@ -3,10 +3,10 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const updateContactById = async (req, res) => {
 	const { body, params, uuid, method, url } = req
-	const { name, number } = body
+	const { name, phone } = body
 	const { id } = params
 
-	let data = [name, number]
+	let data = [name, phone]
 
 	if (data.some(x => typeof x === 'string' && !x.trim())) {
 		res
@@ -29,7 +29,7 @@ const updateContactById = async (req, res) => {
 	data = data.map(x => x && x.trim())
 
 	try {
-		let [response] = await Contact.update({ name, number }, { where: { id } })
+		let [response] = await Contact.update({ name, phone }, { where: { id } })
 
 		if (!Boolean(response)) {
 			res
@@ -61,7 +61,7 @@ const updateContactById = async (req, res) => {
 				data: {
 					id: response.id,
 					name: response.name,
-					number: response.number
+					phone: response.phone
 				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),

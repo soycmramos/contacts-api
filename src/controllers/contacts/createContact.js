@@ -3,9 +3,9 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const createContact = async (req, res) => {
 	const { body, uuid, method, url } = req
-	const { name, number } = body
+	const { name, phone } = body
 
-	let data = [name, number]
+	let data = [name, phone]
 
 	if (data.some(x => !Boolean(x) || !x.trim())) {
 		res
@@ -28,7 +28,7 @@ const createContact = async (req, res) => {
 	data = data.map(x => x.trim())
 
 	try {
-		const response = await Contact.create({ name, number })
+		const response = await Contact.create({ name, phone })
 
 		res
 			.status(StatusCodes.CREATED)
@@ -40,7 +40,7 @@ const createContact = async (req, res) => {
 				data: {
 					id: response.id,
 					name: response.name,
-					number: response.number
+					phone: response.phone
 				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
