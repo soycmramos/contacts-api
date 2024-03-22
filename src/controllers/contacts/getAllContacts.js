@@ -5,7 +5,9 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 const getAllContacts = async (req, res) => {
 	const { method, url } = req
 	try {
-		const contacts = await Contact.findAll()
+		const contacts = await Contact.findAll({
+			attributes: ['id', 'name', 'phone']
+		})
 
 		if (!contacts.length) {
 			res
@@ -32,11 +34,7 @@ const getAllContacts = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contacts found successfully',
-				data: contacts.map(contact => ({
-					id: contact.id,
-					name: contact.name,
-					phone: contact.phone
-				})),
+				data: contacts,
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),

@@ -7,7 +7,10 @@ const getContactById = async (req, res) => {
 	const { id } = params
 
 	try {
-		const contact = await Contact.findOne({ where: { id } })
+		const contact = await Contact.findOne({
+			where: { id },
+			attributes: ['id', 'name', 'phone']
+		})
 
 		if (!contact) {
 			res
@@ -34,11 +37,7 @@ const getContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact found successfully',
-				data: {
-					id: contact.id,
-					name: contact.name,
-					phone: contact.phone
-				},
+				data: contact,
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: v4(),

@@ -29,7 +29,7 @@ const updateContactById = async (req, res) => {
 	data = data.map(x => x && x.trim())
 
 	try {
-		let [response] = await Contact.update({ name, phone }, { where: { id } })
+		const [response] = await Contact.update({ name, phone }, { where: { id } })
 
 		if (!Boolean(response)) {
 			res
@@ -49,7 +49,10 @@ const updateContactById = async (req, res) => {
 			return
 		}
 
-		response = await Contact.findOne({ where: { id } })
+		const contact = await Contact.findOne({
+			where: { id },
+			attributes: ['id', 'name', 'phone']
+		})
 
 		res
 			.status(StatusCodes.OK)
@@ -58,11 +61,7 @@ const updateContactById = async (req, res) => {
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
 				message: 'Contact updated successfully',
-				data: {
-					id: response.id,
-					name: response.name,
-					phone: response.phone
-				},
+				data: contact,
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
