@@ -76,7 +76,7 @@ describe('POST /auth/signin', () => {
 		}
 	})
 
-	it.only(`should get a 200 response with title "OK" and the requested user with a valid JWT in "Authorization" header`, async () => {
+	it(`should get a 200 response with title "OK" and the requested user with a valid JWT in "Authorization" header`, async () => {
 		try {
 			await User.destroy({ truncate: true })
 			const hash = await hashPassword(password)
