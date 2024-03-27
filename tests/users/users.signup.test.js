@@ -1,20 +1,21 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { assert } from 'chai'
-import app from '../src/app.js'
-import Contact from '../src/models/Contact.js'
+import app from '../../src/app.js'
+import User from '../../src/models/User.js'
+import hashPassword from '../../src/utils/hashPassword.js'
 
-const name = 'Jhon Doe'
-const phone = '9876543210'
+const email = 'test@test.example'
+const password = '0t5XA21[0NFb'
 
-describe('PATCH /contacts', () => {
+describe('PUT /auth/signup', () => {
 	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
 		try {
 			await request(app)
-				.put('/contacts')
+				.put('/auth/signup')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'xxx/xxx')
-				.send(JSON.stringify({ name, phone }))
+				.send(JSON.stringify({ email, password }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
 				.expect(res => {
@@ -33,10 +34,10 @@ describe('PATCH /contacts', () => {
 	it(`should get a 415 type error exception with title "Unsupported Media Type" and null data due to unsupported or empty "Content Type" header`, async () => {
 		try {
 			await request(app)
-				.put('/contacts')
+				.put('/auth/signup')
 				.set('Content-Type', 'xxx/xxx')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, phone }))
+				.send(JSON.stringify({ email, password }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 				.expect(res => {
@@ -52,38 +53,13 @@ describe('PATCH /contacts', () => {
 		}
 	})
 
-	it(`should get a 404 type error exception with title "Not Found" and an empty list of data`, async () => {
+	it(`should get a 400 type error exception with title "Bad Request" and null data due to an unsent, invalid, or undefined request body`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
 			await request(app)
-				.patch('/contacts/0')
+				.put('/auth/signup')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name, phone }))
-				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.NOT_FOUND)
-				.expect(res => {
-					assert.exists(res.body)
-					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'failure')
-					assert.strictEqual(res.body.code, StatusCodes.NOT_FOUND)
-					assert.strictEqual(res.body.title, ReasonPhrases.NOT_FOUND)
-					assert.isNull(res.body.data)
-				})
-		} catch (error) {
-			throw Error(error)
-		}
-	})
-
-	it(`should get a 400 type error exception with title "Bad Request" and null data due to some empty parameter`, async () => {
-		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
-			await request(app)
-				.patch(`/contacts/${response.id}`)
-				.set('Content-Type', 'application/json')
-				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name: 'Hailee Steinfeld', phone: '' }))
+				.send(JSON.stringify({}))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.BAD_REQUEST)
 				.expect(res => {
@@ -99,23 +75,46 @@ describe('PATCH /contacts', () => {
 		}
 	})
 
-	it(`should get a 200 response with title "Ok" to partially update the resource (name)`, async () => {
+	it(`should get a 400 type error exception with title "Bad Request" and null data due to missing or empty required field`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
 			await request(app)
-				.patch(`/contacts/${response.id}`)
+				.put('/auth/signup')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name: 'Hailee Steinfeld' }))
+				.send(JSON.stringify({ email, password: '' }))
 				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.OK)
+				.expect(StatusCodes.BAD_REQUEST)
+				.expect(res => {
+					assert.exists(res.body)
+					assert.isObject(res.body)
+					assert.strictEqual(res.body.status, 'failure')
+					assert.strictEqual(res.body.code, StatusCodes.BAD_REQUEST)
+					assert.strictEqual(res.body.title, ReasonPhrases.BAD_REQUEST)
+					assert.isNull(res.body.data)
+				})
+		} catch (error) {
+			throw Error(error)
+		}
+	})
+
+	it(`should get a 201 response with title "Created" and valid data when creating a new resource in the database`, async () => {
+		try {
+			await User.destroy({ truncate: true })
+			const hash = await hashPassword(password)
+			await request(app)
+				.put('/auth/signup')
+				.set('Content-Type', 'application/json')
+				.set('Accept', 'application/json')
+				.send(JSON.stringify({ email, password: hash }))
+				.expect('Content-Type', /application\/json/)
+				.expect(StatusCodes.CREATED)
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
 					assert.strictEqual(res.body.status, 'success')
-					assert.strictEqual(res.body.code, StatusCodes.OK)
-					assert.strictEqual(res.body.title, ReasonPhrases.OK)
+					assert.strictEqual(res.body.code, StatusCodes.CREATED)
+					assert.strictEqual(res.body.title, ReasonPhrases.CREATED)
+					assert.exists(res.body.data)
 					assert.isObject(res.body.data)
 				})
 		} catch (error) {
@@ -123,48 +122,25 @@ describe('PATCH /contacts', () => {
 		}
 	})
 
-	it(`should get a 200 response with title "Ok" to partially update the resource (phone)`, async () => {
+	it(`should get a 409 response with the title "Conflict" and null data due to existing resource`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
+			await User.destroy({ truncate: true })
+			const hash = await hashPassword(password)
+			await User.create({ email, password: hash })
 			await request(app)
-				.patch(`/contacts/${response.id}`)
+				.put('/auth/signup')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
-				.send(JSON.stringify({ phone: '0000000000' }))
+				.send(JSON.stringify({ email, password: hash }))
 				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.OK)
+				.expect(StatusCodes.CONFLICT)
 				.expect(res => {
 					assert.exists(res.body)
 					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'success')
-					assert.strictEqual(res.body.code, StatusCodes.OK)
-					assert.strictEqual(res.body.title, ReasonPhrases.OK)
-					assert.isObject(res.body.data)
-				})
-		} catch (error) {
-			throw Error(error)
-		}
-	})
-
-	it(`should get a 200 response with title "Ok" to fully update the resource (name and phone)`, async () => {
-		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
-			await request(app)
-				.patch(`/contacts/${response.id}`)
-				.set('Content-Type', 'application/json')
-				.set('Accept', 'application/json')
-				.send(JSON.stringify({ name: 'Anna Kendrick', phone: '00000000000' }))
-				.expect('Content-Type', /application\/json/)
-				.expect(StatusCodes.OK)
-				.expect(res => {
-					assert.exists(res.body)
-					assert.isObject(res.body)
-					assert.strictEqual(res.body.status, 'success')
-					assert.strictEqual(res.body.code, StatusCodes.OK)
-					assert.strictEqual(res.body.title, ReasonPhrases.OK)
-					assert.isObject(res.body.data)
+					assert.strictEqual(res.body.status, 'failure')
+					assert.strictEqual(res.body.code, StatusCodes.CONFLICT)
+					assert.strictEqual(res.body.title, ReasonPhrases.CONFLICT)
+					assert.isNull(res.body.data)
 				})
 		} catch (error) {
 			throw Error(error)

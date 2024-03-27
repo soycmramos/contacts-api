@@ -1,6 +1,6 @@
+import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 import { v4 } from 'uuid'
 import Contact from '../../models/Contact.js'
-import { StatusCodes, ReasonPhrases } from 'http-status-codes'
 
 const deleteContactById = async (req, res) => {
 	const { params, method, url } = req

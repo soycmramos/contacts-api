@@ -1,21 +1,22 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import Contact from '../../models/Contact.js'
+import User from '../../models/User.js'
+import signJWT from '../../utils/signJWT.js'
+import bcrypt from 'bcrypt'
 
-const updateContactById = async (req, res) => {
-	const { body, params, uuid, method, url } = req
-	const { name, phone } = body
-	const { id } = params
+const signin = async (req, res) => {
+	const { body, uuid, method, url } = req
+	const { email, password } = body
 
-	let data = [name, phone]
+	const data = [email, password]
 
-	if (data.some(x => typeof x === 'string' && !x.trim())) {
+	if (data.some(x => !Boolean(x) || !x.trim())) {
 		res
 			.status(StatusCodes.BAD_REQUEST)
 			.json({
 				status: 'failure',
 				code: StatusCodes.BAD_REQUEST,
 				title: ReasonPhrases.BAD_REQUEST,
-				message: 'Invalid empty value',
+				message: 'All parameters are required',
 				data: null,
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
@@ -26,47 +27,74 @@ const updateContactById = async (req, res) => {
 		return
 	}
 
-	data = data.map(x => x && x.trim())
-
 	try {
-		const [response] = await Contact.update({ name, phone }, { where: { id } })
+		const user = await User.findOne({
+			where: { email },
+			attributes: ['id', 'email', 'password']
+		})
 
-		if (!Boolean(response)) {
+		if (!user) {
 			res
 				.status(StatusCodes.NOT_FOUND)
 				.json({
 					status: 'failure',
 					code: StatusCodes.NOT_FOUND,
 					title: ReasonPhrases.NOT_FOUND,
-					message: 'Contact not found',
+					message: 'User not found',
 					data: null,
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
 						_uuid: uuid,
 						_path: `${method} ${url}`
-					},
+					}
 				})
+
 			return
 		}
 
-		const contact = await Contact.findOne({
-			where: { id },
-			attributes: ['id', 'name', 'phone']
+		const match = await bcrypt.compare(password, user.password)
+
+		if (!match) {
+			res
+				.status(StatusCodes.UNAUTHORIZED)
+				.json({
+					status: 'failure',
+					code: StatusCodes.UNAUTHORIZED,
+					title: ReasonPhrases.UNAUTHORIZED,
+					message: 'Wrong credentials',
+					data: null,
+					meta: {
+						_timestamp: Math.floor(Date.now() / 1000),
+						_uuid: uuid,
+						_path: `${method} ${url}`
+					}
+				})
+
+			return
+		}
+
+		const token = await signJWT({
+			id: user.id,
+			email: user.email
 		})
 
 		res
 			.status(StatusCodes.OK)
+			.header('Authorization', token)
 			.json({
 				status: 'success',
 				code: StatusCodes.OK,
 				title: ReasonPhrases.OK,
-				message: 'Contact updated successfully',
-				data: contact,
+				message: 'User found successfully',
+				data: {
+					id: user.id,
+					email: user.email
+				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
 					_uuid: uuid,
 					_path: `${method} ${url}`
-				},
+				}
 			})
 
 		return
@@ -90,4 +118,4 @@ const updateContactById = async (req, res) => {
 	}
 }
 
-export default updateContactById
+export default signin
