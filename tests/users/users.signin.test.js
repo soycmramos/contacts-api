@@ -1,21 +1,21 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { assert } from 'chai'
-import app from '../src/app.js'
-import Contact from '../src/models/Contact.js'
+import app from '../../src/app.js'
+import User from '../../src/models/User.js'
+import hashPassword from '../../src/utils/hashPassword.js'
 
-const name = 'Jhon Doe'
-const phone = '9876543210'
+const email = 'test@test.example'
+const password = '0t5XA21[0NFb'
 
-describe('DELETE /contacts/:id', () => {
+describe('POST /auth/signin', () => {
 	it(`should get a 406 type error exception with title "Not Acceptable" and null data due to unsupported or empty "Accept" header`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
 			await request(app)
-				.delete(`/contacts/${response.id}`)
+				.post('/auth/signin')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'xxx/xxx')
+				.send(JSON.stringify({ email, password }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_ACCEPTABLE)
 				.expect(res => {
@@ -33,12 +33,11 @@ describe('DELETE /contacts/:id', () => {
 
 	it(`should get a 415 type error exception with title "Unsupported Media Type" and null data due to unsupported or empty "Content Type" header`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
 			await request(app)
-				.delete(`/contacts/${response.id}`)
+				.post('/auth/signin')
 				.set('Content-Type', 'xxx/xxx')
 				.set('Accept', 'application/json')
+				.send(JSON.stringify({ email, password }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.UNSUPPORTED_MEDIA_TYPE)
 				.expect(res => {
@@ -54,13 +53,14 @@ describe('DELETE /contacts/:id', () => {
 		}
 	})
 
-	it(`should get a 404 type error exception with title "Not Found" and null data`, async () => {
+	it(`should get a 404 error exception with title "Not Found" because the user does not exist"`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
+			await User.destroy({ truncate: true })
 			await request(app)
-				.delete('/contacts/0')
+				.post('/auth/signin')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
+				.send(JSON.stringify({ email: 'xyz@xyz.example', password }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.NOT_FOUND)
 				.expect(res => {
@@ -76,14 +76,16 @@ describe('DELETE /contacts/:id', () => {
 		}
 	})
 
-	it(`should get a 200 response with title "OK" and null data when deleting the resource by its ID`, async () => {
+	it.only(`should get a 200 response with title "OK" and the requested user with a valid JWT in "Authorization" header`, async () => {
 		try {
-			await Contact.destroy({ truncate: true })
-			const response = await Contact.create({ name, phone })
+			await User.destroy({ truncate: true })
+			const hash = await hashPassword(password)
+			await User.create({ email, password: hash })
 			await request(app)
-				.delete(`/contacts/${response.id}`)
+				.post('/auth/signin')
 				.set('Content-Type', 'application/json')
 				.set('Accept', 'application/json')
+				.send(JSON.stringify({ email, password }))
 				.expect('Content-Type', /application\/json/)
 				.expect(StatusCodes.OK)
 				.expect(res => {
@@ -92,7 +94,9 @@ describe('DELETE /contacts/:id', () => {
 					assert.strictEqual(res.body.status, 'success')
 					assert.strictEqual(res.body.code, StatusCodes.OK)
 					assert.strictEqual(res.body.title, ReasonPhrases.OK)
-					assert.isNull(res.body.data)
+					assert.isObject(res.body.data)
+					assert.exists(res.headers.authorization)
+					assert.isString(res.headers.authorization)
 				})
 		} catch (error) {
 			throw Error(error)

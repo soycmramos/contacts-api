@@ -1,6 +1,6 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { v4 } from 'uuid'
 import Contact from '../../models/Contact.js'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 const getAllContacts = async (req, res) => {
 	const { method, url } = req

@@ -11,10 +11,10 @@ const router = Router()
  *     description: Test API health
  *     tags: [Health]
  *     responses:
- *       200:
+ *       204:
  *         description: Returns a successful response
  */
-router.head('/health', (req, res) => res.send(StatusCodes.OK))
+router.head('/health', (req, res) => res.sendStatus(StatusCodes.NO_CONTENT))
 
 router.get('/', (req, res) => res.redirect('/api-docs'))
 

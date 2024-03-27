@@ -3,10 +3,10 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { config } from 'dotenv'
 import morgan from 'morgan'
-import { contactsRoutes, defaultRoutes } from './routes/index.js'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import options from './api/swagger.js'
+import { contactsRoutes, userRoutes, defaultRoutes } from './routes/index.js'
 
 config()
 
@@ -27,6 +27,7 @@ app.use(morgan('dev'))
 
 // routes
 app.use(contactsRoutes)
+app.use(userRoutes)
 app.use(defaultRoutes)
 
 export default app

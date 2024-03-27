@@ -1,11 +1,12 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import Contact from '../../models/Contact.js'
+import User from '../../models/User.js'
+import hashPassword from '../../utils/hashPassword.js'
 
-const createContact = async (req, res) => {
+const signup = async (req, res) => {
 	const { body, uuid, method, url } = req
-	const { name, phone } = body
+	const { email, password } = body
 
-	let data = [name, phone]
+	let data = [email, password]
 
 	if (data.some(x => !Boolean(x) || !x.trim())) {
 		res
@@ -28,7 +29,8 @@ const createContact = async (req, res) => {
 	data = data.map(x => x.trim())
 
 	try {
-		const response = await Contact.create({ name, phone })
+		const hash = await hashPassword(password)
+		const response = await User.create({ email, password: hash })
 
 		res
 			.status(StatusCodes.CREATED)
@@ -36,11 +38,10 @@ const createContact = async (req, res) => {
 				status: 'success',
 				code: StatusCodes.CREATED,
 				title: ReasonPhrases.CREATED,
-				message: 'Contact created successfully',
+				message: 'User created successfully',
 				data: {
 					id: response.id,
-					name: response.name,
-					phone: response.phone
+					email: response.email,
 				},
 				meta: {
 					_timestamp: Math.floor(Date.now() / 1000),
@@ -58,7 +59,7 @@ const createContact = async (req, res) => {
 					status: 'failure',
 					code: StatusCodes.CONFLICT,
 					title: ReasonPhrases.CONFLICT,
-					message: 'Contact already axists',
+					message: 'User already axists',
 					data: null,
 					meta: {
 						_timestamp: Math.floor(Date.now() / 1000),
@@ -88,4 +89,4 @@ const createContact = async (req, res) => {
 	}
 }
 
-export default createContact
+export default signup

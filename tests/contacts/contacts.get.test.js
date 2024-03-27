@@ -1,8 +1,8 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { assert } from 'chai'
-import app from '../src/app.js'
-import Contact from '../src/models/Contact.js'
+import app from '../../src/app.js'
+import Contact from '../../src/models/Contact.js'
 
 const name = 'Jhon Doe'
 const phone = '9876543210'
