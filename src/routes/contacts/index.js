@@ -3,6 +3,7 @@ const router = Router()
 
 // middlewares
 import { checkHeaders, checkBody } from '../../middlewares/checkRequest.js'
+import checkJWT from '../../middlewares/checkJWT.js'
 
 // routes
 import createContact from '../../controllers/contacts/createContact.js'
@@ -87,7 +88,7 @@ import deleteContactById from '../../controllers/contacts/deleteContactById.js'
  *               meta: null
  */
 
-router.put('/contacts', checkHeaders, checkBody, createContact)
+router.put('/contacts', checkJWT, checkHeaders, checkBody, createContact)
 router.get('/contacts', checkHeaders, getAllContacts)
 router.get('/contacts/:id', checkHeaders, getContactById)
 router.patch('/contacts/:id', checkHeaders, checkBody, updateContactById)
